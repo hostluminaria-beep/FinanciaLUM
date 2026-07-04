@@ -1,0 +1,335 @@
+```json
+{
+  "rutas": [
+    {
+      "origen": "Barcelona",
+      "destino": "Girona",
+      "publico": {"lum": 150, "eur": 1.5, "tiempo": 60},
+      "especial": {"lum": 450, "eur": 4.5, "tiempo": 30},
+      "premium": {"lum": 1500, "eur": 15, "tiempo": 15}
+    },
+    {
+      "origen": "Barcelona",
+      "destino": "Lleida",
+      "publico": {"lum": 250, "eur": 2.5, "tiempo": 90},
+      "especial": {"lum": 750, "eur": 7.5, "tiempo": 45},
+      "premium": {"lum": 2500, "eur": 25, "tiempo": 25}
+    },
+    {
+      "origen": "Barcelona",
+      "destino": "Andorra la Vella",
+      "publico": {"lum": 500, "eur": 5, "tiempo": 180},
+      "especial": {"lum": 1500, "eur": 15, "tiempo": 90},
+      "premium": {"lum": 5000, "eur": 50, "tiempo": 30}
+    },
+    {
+      "origen": "Girona",
+      "destino": "Perpiñán",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 60},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 30},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 15}
+    },
+    {
+      "origen": "Lleida",
+      "destino": "Huesca",
+      "publico": {"lum": 150, "eur": 1.5, "tiempo": 45},
+      "especial": {"lum": 450, "eur": 4.5, "tiempo": 25},
+      "premium": {"lum": 1500, "eur": 15, "tiempo": 12}
+    },
+    {
+      "origen": "Lleida",
+      "destino": "Zaragoza",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    },
+    {
+      "origen": "Lleida",
+      "destino": "Andorra la Vella",
+      "publico": {"lum": 300, "eur": 3, "tiempo": 120},
+      "especial": {"lum": 900, "eur": 9, "tiempo": 60},
+      "premium": {"lum": 3000, "eur": 30, "tiempo": 30}
+    },
+    {
+      "origen": "Lleida",
+      "destino": "Foix",
+      "publico": {"lum": 350, "eur": 3.5, "tiempo": 150},
+      "especial": {"lum": 1050, "eur": 10.5, "tiempo": 75},
+      "premium": {"lum": 3500, "eur": 35, "tiempo": 40}
+    },
+    {
+      "origen": "Huesca",
+      "destino": "Zaragoza",
+      "publico": {"lum": 100, "eur": 1, "tiempo": 40},
+      "especial": {"lum": 300, "eur": 3, "tiempo": 20},
+      "premium": {"lum": 1000, "eur": 10, "tiempo": 10}
+    },
+    {
+      "origen": "Huesca",
+      "destino": "Pamplona",
+      "publico": {"lum": 250, "eur": 2.5, "tiempo": 90},
+      "especial": {"lum": 750, "eur": 7.5, "tiempo": 45},
+      "premium": {"lum": 2500, "eur": 25, "tiempo": 25}
+    },
+    {
+      "origen": "Huesca",
+      "destino": "Pau",
+      "publico": {"lum": 300, "eur": 3, "tiempo": 120},
+      "especial": {"lum": 900, "eur": 9, "tiempo": 60},
+      "premium": {"lum": 3000, "eur": 30, "tiempo": 30}
+    },
+    {
+      "origen": "Zaragoza",
+      "destino": "Pamplona",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    },
+    {
+      "origen": "Pamplona",
+      "destino": "Pau",
+      "publico": {"lum": 250, "eur": 2.5, "tiempo": 90},
+      "especial": {"lum": 750, "eur": 7.5, "tiempo": 45},
+      "premium": {"lum": 2500, "eur": 25, "tiempo": 25}
+    },
+    {
+      "origen": "Pamplona",
+      "destino": "Mont-de-Marsan",
+      "publico": {"lum": 350, "eur": 3.5, "tiempo": 135},
+      "especial": {"lum": 1050, "eur": 10.5, "tiempo": 70},
+      "premium": {"lum": 3500, "eur": 35, "tiempo": 35}
+    },
+    {
+      "origen": "Pau",
+      "destino": "Tarbes",
+      "publico": {"lum": 100, "eur": 1, "tiempo": 30},
+      "especial": {"lum": 300, "eur": 3, "tiempo": 15},
+      "premium": {"lum": 1000, "eur": 10, "tiempo": 8}
+    },
+    {
+      "origen": "Pau",
+      "destino": "Auch",
+      "publico": {"lum": 150, "eur": 1.5, "tiempo": 60},
+      "especial": {"lum": 450, "eur": 4.5, "tiempo": 30},
+      "premium": {"lum": 1500, "eur": 15, "tiempo": 15}
+    },
+    {
+      "origen": "Pau",
+      "destino": "Mont-de-Marsan",
+      "publico": {"lum": 120, "eur": 1.2, "tiempo": 45},
+      "especial": {"lum": 360, "eur": 3.6, "tiempo": 25},
+      "premium": {"lum": 1200, "eur": 12, "tiempo": 12}
+    },
+    {
+      "origen": "Tarbes",
+      "destino": "Auch",
+      "publico": {"lum": 120, "eur": 1.2, "tiempo": 45},
+      "especial": {"lum": 360, "eur": 3.6, "tiempo": 25},
+      "premium": {"lum": 1200, "eur": 12, "tiempo": 12}
+    },
+    {
+      "origen": "Tarbes",
+      "destino": "Foix",
+      "publico": {"lum": 250, "eur": 2.5, "tiempo": 90},
+      "especial": {"lum": 750, "eur": 7.5, "tiempo": 45},
+      "premium": {"lum": 2500, "eur": 25, "tiempo": 25}
+    },
+    {
+      "origen": "Tarbes",
+      "destino": "Toulouse",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    },
+    {
+      "origen": "Foix",
+      "destino": "Andorra la Vella",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 60},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 30},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 15}
+    },
+    {
+      "origen": "Foix",
+      "destino": "Perpiñán",
+      "publico": {"lum": 350, "eur": 3.5, "tiempo": 150},
+      "especial": {"lum": 1050, "eur": 10.5, "tiempo": 75},
+      "premium": {"lum": 3500, "eur": 35, "tiempo": 40}
+    },
+    {
+      "origen": "Foix",
+      "destino": "Carcasona",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    },
+    {
+      "origen": "Foix",
+      "destino": "Toulouse",
+      "publico": {"lum": 150, "eur": 1.5, "tiempo": 60},
+      "especial": {"lum": 450, "eur": 4.5, "tiempo": 30},
+      "premium": {"lum": 1500, "eur": 15, "tiempo": 15}
+    },
+    {
+      "origen": "Andorra la Vella",
+      "destino": "Perpiñán",
+      "publico": {"lum": 400, "eur": 4, "tiempo": 150},
+      "especial": {"lum": 1200, "eur": 12, "tiempo": 75},
+      "premium": {"lum": 4000, "eur": 40, "tiempo": 40}
+    },
+    {
+      "origen": "Perpiñán",
+      "destino": "Carcasona",
+      "publico": {"lum": 150, "eur": 1.5, "tiempo": 60},
+      "especial": {"lum": 450, "eur": 4.5, "tiempo": 30},
+      "premium": {"lum": 1500, "eur": 15, "tiempo": 15}
+    },
+    {
+      "origen": "Perpiñán",
+      "destino": "Montpellier",
+      "publico": {"lum": 250, "eur": 2.5, "tiempo": 90},
+      "especial": {"lum": 750, "eur": 7.5, "tiempo": 45},
+      "premium": {"lum": 2500, "eur": 25, "tiempo": 25}
+    },
+    {
+      "origen": "Carcasona",
+      "destino": "Toulouse",
+      "publico": {"lum": 150, "eur": 1.5, "tiempo": 60},
+      "especial": {"lum": 450, "eur": 4.5, "tiempo": 30},
+      "premium": {"lum": 1500, "eur": 15, "tiempo": 15}
+    },
+    {
+      "origen": "Carcasona",
+      "destino": "Albi",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    },
+    {
+      "origen": "Carcasona",
+      "destino": "Montpellier",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    },
+    {
+      "origen": "Toulouse",
+      "destino": "Auch",
+      "publico": {"lum": 150, "eur": 1.5, "tiempo": 60},
+      "especial": {"lum": 450, "eur": 4.5, "tiempo": 30},
+      "premium": {"lum": 1500, "eur": 15, "tiempo": 15}
+    },
+    {
+      "origen": "Toulouse",
+      "destino": "Montauban",
+      "publico": {"lum": 100, "eur": 1, "tiempo": 30},
+      "especial": {"lum": 300, "eur": 3, "tiempo": 15},
+      "premium": {"lum": 1000, "eur": 10, "tiempo": 8}
+    },
+    {
+      "origen": "Toulouse",
+      "destino": "Albi",
+      "publico": {"lum": 100, "eur": 1, "tiempo": 30},
+      "especial": {"lum": 300, "eur": 3, "tiempo": 15},
+      "premium": {"lum": 1000, "eur": 10, "tiempo": 8}
+    },
+    {
+      "origen": "Toulouse",
+      "destino": "Montpellier",
+      "publico": {"lum": 350, "eur": 3.5, "tiempo": 135},
+      "especial": {"lum": 1050, "eur": 10.5, "tiempo": 70},
+      "premium": {"lum": 3500, "eur": 35, "tiempo": 35}
+    },
+    {
+      "origen": "Auch",
+      "destino": "Agen",
+      "publico": {"lum": 100, "eur": 1, "tiempo": 30},
+      "especial": {"lum": 300, "eur": 3, "tiempo": 15},
+      "premium": {"lum": 1000, "eur": 10, "tiempo": 8}
+    },
+    {
+      "origen": "Auch",
+      "destino": "Montauban",
+      "publico": {"lum": 120, "eur": 1.2, "tiempo": 45},
+      "especial": {"lum": 360, "eur": 3.6, "tiempo": 25},
+      "premium": {"lum": 1200, "eur": 12, "tiempo": 12}
+    },
+    {
+      "origen": "Agen",
+      "destino": "Montauban",
+      "publico": {"lum": 100, "eur": 1, "tiempo": 30},
+      "especial": {"lum": 300, "eur": 3, "tiempo": 15},
+      "premium": {"lum": 1000, "eur": 10, "tiempo": 8}
+    },
+    {
+      "origen": "Agen",
+      "destino": "Burdeos",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    },
+    {
+      "origen": "Agen",
+      "destino": "Mont-de-Marsan",
+      "publico": {"lum": 180, "eur": 1.8, "tiempo": 70},
+      "especial": {"lum": 540, "eur": 5.4, "tiempo": 35},
+      "premium": {"lum": 1800, "eur": 18, "tiempo": 18}
+    },
+    {
+      "origen": "Montauban",
+      "destino": "Albi",
+      "publico": {"lum": 100, "eur": 1, "tiempo": 30},
+      "especial": {"lum": 300, "eur": 3, "tiempo": 15},
+      "premium": {"lum": 1000, "eur": 10, "tiempo": 8}
+    },
+    {
+      "origen": "Montauban",
+      "destino": "Rodez",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    },
+    {
+      "origen": "Montauban",
+      "destino": "Burdeos",
+      "publico": {"lum": 300, "eur": 3, "tiempo": 120},
+      "especial": {"lum": 900, "eur": 9, "tiempo": 60},
+      "premium": {"lum": 3000, "eur": 30, "tiempo": 30}
+    },
+    {
+      "origen": "Albi",
+      "destino": "Rodez",
+      "publico": {"lum": 120, "eur": 1.2, "tiempo": 45},
+      "especial": {"lum": 360, "eur": 3.6, "tiempo": 25},
+      "premium": {"lum": 1200, "eur": 12, "tiempo": 12}
+    },
+    {
+      "origen": "Albi",
+      "destino": "Montpellier",
+      "publico": {"lum": 250, "eur": 2.5, "tiempo": 90},
+      "especial": {"lum": 750, "eur": 7.5, "tiempo": 45},
+      "premium": {"lum": 2500, "eur": 25, "tiempo": 25}
+    },
+    {
+      "origen": "Rodez",
+      "destino": "Montpellier",
+      "publico": {"lum": 250, "eur": 2.5, "tiempo": 90},
+      "especial": {"lum": 750, "eur": 7.5, "tiempo": 45},
+      "premium": {"lum": 2500, "eur": 25, "tiempo": 25}
+    },
+    {
+      "origen": "Mont-de-Marsan",
+      "destino": "Burdeos",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    },
+    {
+      "origen": "Burdeos",
+      "destino": "Agen",
+      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
+      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
+      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
+    }
+  ]
+}
+```

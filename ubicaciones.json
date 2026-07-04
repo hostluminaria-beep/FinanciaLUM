@@ -1,0 +1,25 @@
+{
+  "ubicaciones": [
+    {"nombre": "Barcelona", "region": "Luminaria Catalana", "tipo": "ciudad"},
+    {"nombre": "Girona", "region": "Luminaria Catalana", "tipo": "ciudad"},
+    {"nombre": "Lleida", "region": "Luminaria Catalana", "tipo": "ciudad"},
+    {"nombre": "Andorra la Vella", "region": "Pirineos", "tipo": "ciudad"},
+    {"nombre": "Perpiñán", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Huesca", "region": "Luminaria Hispana", "tipo": "ciudad"},
+    {"nombre": "Zaragoza", "region": "Luminaria Hispana", "tipo": "ciudad"},
+    {"nombre": "Foix", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Pamplona", "region": "Luminaria Hispana", "tipo": "ciudad"},
+    {"nombre": "Pau", "region": "Aquitania", "tipo": "ciudad"},
+    {"nombre": "Mont-de-Marsan", "region": "Aquitania", "tipo": "ciudad"},
+    {"nombre": "Tarbes", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Auch", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Toulouse", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Carcasona", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Montpellier", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Albi", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Montauban", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Agen", "region": "Aquitania", "tipo": "ciudad"},
+    {"nombre": "Rodez", "region": "Occitania", "tipo": "ciudad"},
+    {"nombre": "Burdeos", "region": "Aquitania", "tipo": "ciudad"}
+  ]
+}
