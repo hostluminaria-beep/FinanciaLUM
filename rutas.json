@@ -321,14 +321,6 @@
       "publico": {"lum": 200, "eur": 2, "tiempo": 75},
       "especial": {"lum": 600, "eur": 6, "tiempo": 40},
       "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
-    },
-    {
-      "origen": "Burdeos",
-      "destino": "Agen",
-      "publico": {"lum": 200, "eur": 2, "tiempo": 75},
-      "especial": {"lum": 600, "eur": 6, "tiempo": 40},
-      "premium": {"lum": 2000, "eur": 20, "tiempo": 20}
     }
   ]
-}
-```
+    }
