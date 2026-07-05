@@ -1,0 +1,16 @@
+{
+  "jugadores": [
+    {
+      "id": 1,
+      "nombre": "Asdf",
+      "contrasena": "f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b",
+      "efectivo_lum": 5000.0,
+      "efectivo_eur": 0.0,
+      "efectivo_ltr": 0.0,
+      "ubicacion_id": 7
+    }
+  ],
+  "cuentas": [],
+  "inventario": [],
+  "acciones": []
+}
