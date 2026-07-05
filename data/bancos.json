@@ -1,0 +1,141 @@
+{
+  "bancos": [
+    {
+      "nombre": "CaixaPujol",
+      "monedas": ["EUR", "LUM"],
+      "depositos": {"EUR": 100, "LUM": 10400},
+      "interes": 0.10,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 1.50},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096}
+      ]
+    },
+    {
+      "nombre": "Cooperativa de Crèdit Catalana",
+      "monedas": ["EUR", "LUM", "LTR"],
+      "depositos": {"EUR": 50, "LUM": 5200, "LTR": 6500},
+      "interes": 0.15,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 1.00},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "EUR", "a": "LTR", "compra": 80.70, "venta": 83.20},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096},
+        {"de": "LUM", "a": "LTR", "compra": 0.7760, "venta": 0.8000},
+        {"de": "LTR", "a": "EUR", "compra": 0.0116, "venta": 0.0120},
+        {"de": "LTR", "a": "LUM", "compra": 1.2125, "venta": 1.2500}
+      ]
+    },
+    {
+      "nombre": "Crèdit Agricole Luminaria",
+      "monedas": ["EUR", "LUM"],
+      "depositos": {"EUR": 80, "LUM": 8320},
+      "interes": 0.10,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 1.20},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096}
+      ]
+    },
+    {
+      "nombre": "Banca Cívica Luminaria",
+      "monedas": ["EUR", "LUM", "LTR"],
+      "depositos": {"EUR": 60, "LUM": 6240, "LTR": 7800},
+      "interes": 0.15,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 1.00},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "EUR", "a": "LTR", "compra": 80.70, "venta": 83.20},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096},
+        {"de": "LUM", "a": "LTR", "compra": 0.7760, "venta": 0.8000},
+        {"de": "LTR", "a": "EUR", "compra": 0.0116, "venta": 0.0120},
+        {"de": "LTR", "a": "LUM", "compra": 1.2125, "venta": 1.2500}
+      ]
+    },
+    {
+      "nombre": "Banc Sabadell Luminaria",
+      "monedas": ["EUR", "LUM"],
+      "depositos": {"EUR": 75, "LUM": 7800},
+      "interes": 0.10,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 1.50},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096}
+      ]
+    },
+    {
+      "nombre": "Banco Cooperativo del Pirineo",
+      "monedas": ["EUR", "LUM", "LTR"],
+      "depositos": {"EUR": 30, "LUM": 3120, "LTR": 3900},
+      "interes": 0.20,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 0.80},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "EUR", "a": "LTR", "compra": 80.70, "venta": 83.20},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096},
+        {"de": "LUM", "a": "LTR", "compra": 0.7760, "venta": 0.8000},
+        {"de": "LTR", "a": "EUR", "compra": 0.0116, "venta": 0.0120},
+        {"de": "LTR", "a": "LUM", "compra": 1.2125, "venta": 1.2500}
+      ]
+    },
+    {
+      "nombre": "Monteleón Private Bank",
+      "monedas": ["EUR", "LUM"],
+      "depositos": {"EUR": 500, "LUM": 52000},
+      "interes": 0.05,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 3.00},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096}
+      ]
+    },
+    {
+      "nombre": "Banco de las Provincias",
+      "monedas": ["EUR", "LUM"],
+      "depositos": {"EUR": 60, "LUM": 6240},
+      "interes": 0.10,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 1.20},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096}
+      ]
+    },
+    {
+      "nombre": "Caja de Ahorros de Pamplona",
+      "monedas": ["EUR", "LUM"],
+      "depositos": {"EUR": 50, "LUM": 5200},
+      "interes": 0.15,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 1.00},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096}
+      ]
+    },
+    {
+      "nombre": "Banca Ètica Luminaria",
+      "monedas": ["EUR", "LUM", "LTR"],
+      "depositos": {"EUR": 20, "LUM": 2080, "LTR": 2600},
+      "interes": 0.25,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 0.50},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "EUR", "a": "LTR", "compra": 80.70, "venta": 83.20},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096},
+        {"de": "LUM", "a": "LTR", "compra": 0.7760, "venta": 0.8000},
+        {"de": "LTR", "a": "EUR", "compra": 0.0116, "venta": 0.0120},
+        {"de": "LTR", "a": "LUM", "compra": 1.2125, "venta": 1.2500}
+      ]
+    },
+    {
+      "nombre": "Andorra Banc",
+      "monedas": ["EUR", "LUM"],
+      "depositos": {"EUR": 200, "LUM": 20800},
+      "interes": 0.05,
+      "comision_transferencia": {"mismo_banco": 0, "otro_banco": 2.50},
+      "tipos_cambio": [
+        {"de": "EUR", "a": "LUM", "compra": 100.88, "venta": 104.00},
+        {"de": "LUM", "a": "EUR", "compra": 0.0093, "venta": 0.0096}
+      ]
+    }
+  ]
+}
