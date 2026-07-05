@@ -8,6 +8,15 @@
       "efectivo_eur": 0.0,
       "efectivo_ltr": 0.0,
       "ubicacion_id": 7
+    },
+    {
+      "id": 2,
+      "nombre": "qwer",
+      "contrasena": "f6f2ea8f45d8a057c9566a33f99474da2e5c6a6604d736121650e2730c6fb0a3",
+      "efectivo_lum": 5000.0,
+      "efectivo_eur": 0.0,
+      "efectivo_ltr": 0.0,
+      "ubicacion_id": 7
     }
   ],
   "cuentas": [],
