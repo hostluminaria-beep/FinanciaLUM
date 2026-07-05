@@ -13,13 +13,25 @@
       "id": 2,
       "nombre": "qwer",
       "contrasena": "f6f2ea8f45d8a057c9566a33f99474da2e5c6a6604d736121650e2730c6fb0a3",
-      "efectivo_lum": 5000.0,
+      "efectivo_lum": 1880.0,
       "efectivo_eur": 0.0,
       "efectivo_ltr": 0.0,
       "ubicacion_id": 7
     }
   ],
-  "cuentas": [],
+  "cuentas": [
+    {
+      "id": 1,
+      "jugador_id": 2,
+      "banco_id": 6,
+      "moneda": "LUM",
+      "saldo": 3120.0,
+      "pin": "1234",
+      "tipo": "corriente",
+      "fecha_apertura": "2026-07-05 17:59:54",
+      "ultimo_interes": "2026-07-05 17:59:54"
+    }
+  ],
   "inventario": [],
   "acciones": []
 }
