@@ -1,0 +1,10 @@
+{
+  "tiendas": [
+    {
+      "nombre": "Pirinmart EPEIN",
+      "tipo": "tienda",
+      "precio_cuenta": {"LUM": 0, "EUR": 0, "LTR": 0},
+      "monedas_aceptadas": ["LUM", "EUR"]
+    }
+  ]
+}
