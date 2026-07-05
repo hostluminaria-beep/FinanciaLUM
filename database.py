@@ -40,12 +40,6 @@ def load_catalogo(tienda_nombre):
             return json.load(f)
     return None
 
-def save_catalogo(tienda_nombre, data):
-    safe_name = tienda_nombre.replace(' ', '_').replace('ñ', 'n')
-    filepath = os.path.join(CATALOGO_DIR, f"{safe_name}.json")
-    with open(filepath, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
 def subir_a_github(filename, content, mensaje="Auto backup"):
     try:
         from config import GITHUB_TOKEN, GITHUB_REPO
@@ -63,6 +57,61 @@ def subir_a_github(filename, content, mensaje="Auto backup"):
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
+
+def backup_completo_a_github():
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        c.execute("SELECT id, nombre, contrasena, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id FROM jugadores")
+        jugadores = [dict(row) for row in c.fetchall()]
+        c.execute("SELECT * FROM cuentas")
+        cuentas = [dict(row) for row in c.fetchall()]
+        c.execute("SELECT * FROM inventario")
+        inventario = [dict(row) for row in c.fetchall()]
+        c.execute("SELECT * FROM acciones")
+        acciones = [dict(row) for row in c.fetchall()]
+        conn.close()
+        data = json.dumps({'jugadores': jugadores, 'cuentas': cuentas, 'inventario': inventario, 'acciones': acciones}, indent=2, ensure_ascii=False, default=str)
+        save_json('backup_completo.json', json.loads(data))
+        subir_a_github('data/backup_completo.json', data, 'Backup completo automatico')
+    except:
+        pass
+
+def cargar_backup_desde_json():
+    filepath = os.path.join(DATA_DIR, 'backup_completo.json')
+    if not os.path.exists(filepath):
+        return
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        for j in data.get('jugadores', []):
+            c.execute("SELECT id FROM jugadores WHERE id = ?", (j['id'],))
+            if not c.fetchone():
+                c.execute("INSERT INTO jugadores (id, nombre, contrasena, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                          (j['id'], j['nombre'], j['contrasena'], j['efectivo_lum'], j['efectivo_eur'], j['efectivo_ltr'], j.get('ubicacion_id', 1)))
+        for cta in data.get('cuentas', []):
+            c.execute("SELECT id FROM cuentas WHERE id = ?", (cta['id'],))
+            if not c.fetchone():
+                c.execute("INSERT INTO cuentas (id, jugador_id, banco_id, moneda, saldo, pin, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                          (cta['id'], cta['jugador_id'], cta['banco_id'], cta['moneda'], cta['saldo'], cta['pin'], cta.get('tipo', 'corriente')))
+        for inv in data.get('inventario', []):
+            c.execute("SELECT id FROM inventario WHERE id = ?", (inv['id'],))
+            if not c.fetchone():
+                c.execute("INSERT INTO inventario (id, jugador_id, nombre, clasificacion, cantidad, unidad, en_venta) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                          (inv['id'], inv['jugador_id'], inv['nombre'], inv['clasificacion'], inv['cantidad'], inv['unidad'], inv.get('en_venta', 0)))
+        for acc in data.get('acciones', []):
+            c.execute("SELECT id FROM acciones WHERE id = ?", (acc['id'],))
+            if not c.fetchone():
+                c.execute("INSERT INTO acciones (id, jugador_id, empresa_id, cantidad, precio_compra, en_venta, precio_venta) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                          (acc['id'], acc['jugador_id'], acc['empresa_id'], acc['cantidad'], acc['precio_compra'], acc.get('en_venta', 0), acc.get('precio_venta', 0)))
+        conn.commit()
+        conn.close()
+        print("✅ Datos cargados desde backup")
+    except:
+        pass
 
 def init_db():
     ensure_dirs()
@@ -230,6 +279,7 @@ def init_db():
     ''')
     conn.commit()
     conn.close()
+    cargar_backup_desde_json()
 
 # ============ JUGADORES ============
 def get_jugador_by_nombre(nombre):
@@ -255,7 +305,7 @@ def registrar_jugador(nombre, contrasena, ubicacion_id):
               (nombre, hash_password(contrasena), ubicacion_id))
     conn.commit()
     conn.close()
-    exportar_jugadores()
+    backup_completo_a_github()
 
 def verificar_login(nombre, contrasena):
     j = get_jugador_by_nombre(nombre)
@@ -264,15 +314,7 @@ def verificar_login(nombre, contrasena):
     return None
 
 def exportar_jugadores():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    c = conn.cursor()
-    c.execute("SELECT id, nombre, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id FROM jugadores")
-    jugadores = [dict(row) for row in c.fetchall()]
-    conn.close()
-    data = json.dumps({'jugadores': jugadores}, indent=2, ensure_ascii=False)
-    save_json('jugadores.json', {'jugadores': jugadores})
-    subir_a_github('data/jugadores.json', data, 'Auto backup jugadores')
+    backup_completo_a_github()
 
 def importar_jugadores(data):
     conn = sqlite3.connect(DB_PATH)
@@ -282,10 +324,11 @@ def importar_jugadores(data):
         c.execute("SELECT id FROM jugadores WHERE id = ?", (j['id'],))
         if not c.fetchone():
             c.execute("INSERT INTO jugadores (id, nombre, contrasena, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                      (j['id'], j['nombre'], 'importado', j['efectivo_lum'], j['efectivo_eur'], j['efectivo_ltr'], j.get('ubicacion_id', 1)))
+                      (j['id'], j['nombre'], j.get('contrasena', 'importado'), j['efectivo_lum'], j['efectivo_eur'], j['efectivo_ltr'], j.get('ubicacion_id', 1)))
             creados += 1
     conn.commit()
     conn.close()
+    backup_completo_a_github()
     return creados
 
 def get_ubicacion_jugador(jugador_id):
@@ -370,18 +413,15 @@ def viajar(jugador_id, destino_id, tipo_transporte):
     if not ruta:
         conn.close()
         return False, "Ruta no disponible"
-    
     if tipo_transporte == 'publico':
         costo_lum, costo_eur, tiempo = ruta[3], ruta[4], ruta[5]
     elif tipo_transporte == 'especial':
         costo_lum, costo_eur, tiempo = ruta[6], ruta[7], ruta[8]
     else:
         costo_lum, costo_eur, tiempo = ruta[9], ruta[10], ruta[11]
-    
     if not puede_viajar(jugador_id):
         conn.close()
-        return False, "Ya no puedes viajar más hoy"
-    
+        return False, "Ya no puedes viajar mas hoy"
     c.execute("INSERT INTO viajes (jugador_id, origen_id, destino_id, tipo_transporte, costo_lum, costo_eur, tiempo) VALUES (?, ?, ?, ?, ?, ?, ?)",
               (jugador_id, origen_id, destino_id, tipo_transporte, costo_lum, costo_eur, tiempo))
     c.execute("UPDATE jugadores SET ubicacion_id = ? WHERE id = ?", (destino_id, jugador_id))
@@ -422,6 +462,7 @@ def crear_cuenta(jugador_id, banco_id, moneda, pin):
               (jugador_id, banco_id, moneda, pin, deposito))
     conn.commit()
     conn.close()
+    backup_completo_a_github()
     return True, f"Cuenta creada en {banco[1]}"
 
 def get_cuentas(jugador_id):
@@ -459,20 +500,19 @@ def transferir(jugador_id, origen, destino, monto, pin):
     cd = c.fetchone()
     if not cd or co[2] != cd[2]:
         conn.close()
-        return False, "Cuenta destino no válida"
-    
+        return False, "Cuenta destino no valida"
     banco = get_banco_by_id(co[4])
     comision = banco[6] if co[4] == cd[3] else banco[7]
     total = monto + comision
     if co[1] < total:
         conn.close()
-        return False, f"Saldo insuficiente (comisión: {comision} EUR)"
-    
+        return False, f"Saldo insuficiente (comision: {comision} EUR)"
     c.execute("UPDATE cuentas SET saldo = saldo - ? WHERE id = ?", (total, origen))
     c.execute("UPDATE cuentas SET saldo = saldo + ? WHERE id = ?", (monto, destino))
     conn.commit()
     conn.close()
-    return True, f"Transferencia exitosa (comisión: {comision} EUR)"
+    backup_completo_a_github()
+    return True, f"Transferencia exitosa (comision: {comision} EUR)"
 
 def get_tipos_cambio(banco_id):
     conn = sqlite3.connect(DB_PATH)
@@ -495,8 +535,7 @@ def convertir_moneda(origen, destino, monto):
     if not cd:
         conn.close()
         return False, "Cuenta destino no encontrada"
-    c.execute("SELECT venta FROM tipos_cambio WHERE banco_id = ? AND de_moneda = ? AND a_moneda = ?",
-              (co[1], co[3], cd[0]))
+    c.execute("SELECT venta FROM tipos_cambio WHERE banco_id = ? AND de_moneda = ? AND a_moneda = ?", (co[1], co[3], cd[0]))
     t = c.fetchone()
     if not t:
         conn.close()
@@ -506,6 +545,7 @@ def convertir_moneda(origen, destino, monto):
     c.execute("UPDATE cuentas SET saldo = saldo + ? WHERE id = ?", (md, destino))
     conn.commit()
     conn.close()
+    backup_completo_a_github()
     return True, f"Convertido: {md:.2f} {cd[0]}"
 
 def get_efectivo(jugador_id):
@@ -544,12 +584,13 @@ def depositar_efectivo(jugador_id, moneda, monto, cuenta_id):
     cu = c.fetchone()
     if not cu or cu[1] != jugador_id or cu[0] != moneda:
         conn.close()
-        return False, "Cuenta no válida"
+        return False, "Cuenta no valida"
     c.execute(f"UPDATE jugadores SET {col} = {col} - ? WHERE id = ?", (monto, jugador_id))
     c.execute("UPDATE cuentas SET saldo = saldo + ? WHERE id = ?", (monto, cuenta_id))
     conn.commit()
     conn.close()
-    return True, "Depósito exitoso"
+    backup_completo_a_github()
+    return True, "Deposito exitoso"
 
 # ============ TIENDAS Y PRODUCTOS ============
 def get_tiendas():
@@ -588,7 +629,7 @@ def comprar_producto_tienda(jugador_id, producto_id, cuenta_id):
     cu = c.fetchone()
     if not cu:
         conn.close()
-        return False, "Cuenta no válida"
+        return False, "Cuenta no valida"
     mok = json.loads(p[8])
     if cu[1] not in mok:
         conn.close()
@@ -604,6 +645,7 @@ def comprar_producto_tienda(jugador_id, producto_id, cuenta_id):
               (jugador_id, p[2], p[3]))
     conn.commit()
     conn.close()
+    backup_completo_a_github()
     return True, f"Comprado: {p[2]}"
 
 # ============ INVENTARIO ============
@@ -638,11 +680,12 @@ def ofertar_item(jugador_id, item_id, pl, pe, plr, tienda_id=None):
     it = c.fetchone()
     if not it or it[0] != jugador_id:
         conn.close()
-        return False, "Item no válido"
+        return False, "Item no valido"
     c.execute("UPDATE inventario SET en_venta=1, precio_venta_lum=?, precio_venta_eur=?, precio_venta_ltr=?, tienda_id=? WHERE id=?",
               (pl, pe, plr, tienda_id, item_id))
     conn.commit()
     conn.close()
+    backup_completo_a_github()
     return True, "Item en venta"
 
 def comprar_item_comprador(comprador_id, item_id, cuenta_id, moneda):
@@ -658,7 +701,7 @@ def comprar_item_comprador(comprador_id, item_id, cuenta_id, moneda):
     uv = c.fetchone()[0]
     if uc != uv:
         conn.close()
-        return False, "Debes estar en la misma ubicación que el vendedor"
+        return False, "Debes estar en la misma ubicacion que el vendedor"
     precios = {'LUM': item[7], 'EUR': item[8], 'LTR': item[9]}
     if moneda not in precios or not precios[moneda]:
         conn.close()
@@ -680,6 +723,7 @@ def comprar_item_comprador(comprador_id, item_id, cuenta_id, moneda):
               (comprador_id, item_id))
     conn.commit()
     conn.close()
+    backup_completo_a_github()
     return True, "Compra exitosa"
 
 # ============ EMPRESAS Y ACCIONES (SOLO EUR) ============
@@ -733,7 +777,7 @@ def comprar_acciones(jugador_id, empresa_id, cantidad, cuenta_id):
     cu = c.fetchone()
     if not cu:
         conn.close()
-        return False, "Cuenta no válida"
+        return False, "Cuenta no valida"
     if cu[1] != 'EUR':
         conn.close()
         return False, "Solo se aceptan cuentas en EUR para comprar acciones"
@@ -751,6 +795,7 @@ def comprar_acciones(jugador_id, empresa_id, cantidad, cuenta_id):
         c.execute("INSERT INTO acciones (jugador_id, empresa_id, cantidad, precio_compra) VALUES (?,?,?,?)", (jugador_id, empresa_id, cantidad, emp[3]))
     conn.commit()
     conn.close()
+    backup_completo_a_github()
     return True, f"Compradas {cantidad} acciones de {emp[1]} por {costo:.2f} EUR"
 
 def vender_acciones(jugador_id, acciones_id, cantidad, precio_venta):
@@ -764,6 +809,7 @@ def vender_acciones(jugador_id, acciones_id, cantidad, precio_venta):
     c.execute("UPDATE acciones SET cantidad=cantidad-?, en_venta=1, precio_venta=? WHERE id=?", (cantidad, precio_venta, acciones_id))
     conn.commit()
     conn.close()
+    backup_completo_a_github()
     return True, f"Acciones en venta a {precio_venta:.2f} EUR c/u"
 
 def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
@@ -778,7 +824,7 @@ def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
     cu = c.fetchone()
     if not cu:
         conn.close()
-        return False, "Cuenta no válida"
+        return False, "Cuenta no valida"
     if cu[1] != 'EUR':
         conn.close()
         return False, "Solo se aceptan cuentas en EUR para comprar acciones"
@@ -800,6 +846,7 @@ def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
         c.execute("INSERT INTO acciones (jugador_id, empresa_id, cantidad, precio_compra) VALUES (?,?,?,?)", (comprador_id, a[2], cantidad, a[7]))
     conn.commit()
     conn.close()
+    backup_completo_a_github()
     return True, f"Compra exitosa. Costo: {costo:.2f} EUR"
 
 def get_historial_financiero(jugador_id, limite=10):
@@ -817,8 +864,9 @@ def agregar_inventario(jugador_id, nombre, clasif, cantidad, unidad):
               (jugador_id, nombre, clasif, cantidad, unidad))
     conn.commit()
     conn.close()
+    backup_completo_a_github()
 
-# ============ IMPORTACIÓN JSON ============
+# ============ IMPORTACION JSON ============
 def importar_bancos_desde_json():
     data = load_json('bancos.json', {'bancos': []})
     conn = sqlite3.connect(DB_PATH)
@@ -844,8 +892,7 @@ def importar_bancos_desde_json():
         else:
             banco_id = ex[0]
         for tipo in banco.get('tipos_cambio', []):
-            c.execute("SELECT COUNT(*) FROM tipos_cambio WHERE banco_id = ? AND de_moneda = ? AND a_moneda = ?",
-                      (banco_id, tipo['de'], tipo['a']))
+            c.execute("SELECT COUNT(*) FROM tipos_cambio WHERE banco_id = ? AND de_moneda = ? AND a_moneda = ?", (banco_id, tipo['de'], tipo['a']))
             if c.fetchone()[0] == 0:
                 c.execute("INSERT INTO tipos_cambio (banco_id, de_moneda, a_moneda, compra, venta) VALUES (?, ?, ?, ?, ?)",
                           (banco_id, tipo['de'], tipo['a'], tipo['compra'], tipo['venta']))
@@ -862,8 +909,7 @@ def importar_ubicaciones_desde_json():
     for u in data.get('ubicaciones', []):
         c.execute("SELECT COUNT(*) FROM ubicaciones WHERE nombre = ?", (u['nombre'],))
         if c.fetchone()[0] == 0:
-            c.execute("INSERT INTO ubicaciones (nombre, region, tipo) VALUES (?, ?, ?)",
-                      (u['nombre'], u.get('region', ''), u.get('tipo', 'ciudad')))
+            c.execute("INSERT INTO ubicaciones (nombre, region, tipo) VALUES (?, ?, ?)", (u['nombre'], u.get('region', ''), u.get('tipo', 'ciudad')))
             creadas += 1
     conn.commit()
     conn.close()
