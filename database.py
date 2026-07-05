@@ -4,12 +4,14 @@ import hashlib
 import os
 import requests
 import base64
+import time
 from datetime import datetime, timedelta
 
 DB_PATH = 'economia.db'
 DATA_DIR = 'data'
 CATALOGO_DIR = 'catalogo'
 ULTIMO_GUARDADO = 0
+ULTIMO_GITHUB = 0
 
 def ensure_dirs():
     if not os.path.exists(DATA_DIR):
@@ -62,7 +64,7 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def guardar_estado():
-    global ULTIMO_GUARDADO
+    global ULTIMO_GUARDADO, ULTIMO_GITHUB
     try:
         conn = sqlite3.connect(DB_PATH)
         conn.row_factory = sqlite3.Row
@@ -81,8 +83,10 @@ def guardar_estado():
         estado = {'jugadores': jugadores, 'cuentas': cuentas, 'inventario': inventario, 'acciones': acciones, 'codigos': codigos}
         data = json.dumps(estado, indent=2, ensure_ascii=False, default=str)
         save_json('estado.json', estado)
-        subir_a_github('data/estado.json', data, 'Auto save')
         ULTIMO_GUARDADO = time.time()
+        if time.time() - ULTIMO_GITHUB > 1800:
+            subir_a_github('data/estado.json', data, 'Auto save')
+            ULTIMO_GITHUB = time.time()
     except:
         pass
 
@@ -360,8 +364,7 @@ def generar_codigo(codigo):
         conn.commit()
         ok = c.rowcount > 0
         conn.close()
-        if ok:
-            guardar_estado()
+        if ok: guardar_estado()
         return ok
     except:
         conn.close()
@@ -404,7 +407,25 @@ def eliminar_banco(banco_id):
     conn.close()
     guardar_estado()
 
-# ============ TRANSFERIR EFECTIVO ============
+def exportar_jugadores():
+    guardar_estado()
+
+def importar_jugadores(data):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    creados = 0
+    for j in data.get('jugadores', []):
+        c.execute("SELECT id FROM jugadores WHERE id = ?", (j['id'],))
+        if not c.fetchone():
+            c.execute("INSERT INTO jugadores (id, nombre, contrasena, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                      (j['id'], j['nombre'], j.get('contrasena', 'importado'), j['efectivo_lum'], j['efectivo_eur'], j['efectivo_ltr'], j.get('ubicacion_id', 1)))
+            creados += 1
+    conn.commit()
+    conn.close()
+    guardar_estado()
+    return creados
+
+# ============ TRANSFERIR EFECTIVO Y ACTIVOS ============
 def transferir_efectivo(de_id, para_id, moneda, monto):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -526,11 +547,11 @@ def get_banco_by_id(bid):
     conn.close()
     return r
 
-def add_banco(nombre, monedas, deposito_eur, deposito_lum, deposito_ltr, interes, com_mismo, com_otro):
+def add_banco(nombre, monedas, dep_eur, dep_lum, dep_ltr, interes, com_mismo, com_otro):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("INSERT OR IGNORE INTO bancos (nombre, monedas, deposito_eur, deposito_lum, deposito_ltr, interes, comision_mismo_banco, comision_otro_banco) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-              (nombre, json.dumps(monedas), deposito_eur, deposito_lum, deposito_ltr, interes, com_mismo, com_otro))
+              (nombre, json.dumps(monedas), dep_eur, dep_lum, dep_ltr, interes, com_mismo, com_otro))
     conn.commit()
     conn.close()
     guardar_estado()
