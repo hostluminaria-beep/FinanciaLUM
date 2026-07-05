@@ -1,0 +1,12 @@
+{
+  "jugadores": [
+    {
+      "id": 1,
+      "nombre": "Prueba",
+      "efectivo_lum": 5000.0,
+      "efectivo_eur": 0.0,
+      "efectivo_ltr": 0.0,
+      "ubicacion_id": 7
+    }
+  ]
+}
