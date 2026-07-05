@@ -1,0 +1,483 @@
+{
+  "tienda": "Pirinmart EPEIN",
+  "tipo": "tienda",
+  "monedas_aceptadas": ["LUM", "EUR"],
+  "categorias": [
+    {
+      "nombre": "Teléfonos Móviles Gama Alta",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "iPhone 16 Pro Max 256GB", "codigo": "APL-482K7X", "precio_lum": 189280, "precio_eur": 1820, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "iPhone 16 Pro Max 512GB", "codigo": "APL-739M2Y", "precio_lum": 209040, "precio_eur": 2010, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "iPhone 16 Pro Max 1TB", "codigo": "APL-156N8W", "precio_lum": 235040, "precio_eur": 2260, "precio_ltr": 0, "cantidad": 71},
+        {"nombre": "iPhone 16 Pro 256GB", "codigo": "APL-841P3V", "precio_lum": 164320, "precio_eur": 1580, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "iPhone 16 Pro 512GB", "codigo": "APL-927Q4T", "precio_lum": 185120, "precio_eur": 1780, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "iPhone 16 128GB", "codigo": "APL-315R6Z", "precio_lum": 124800, "precio_eur": 1200, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "iPhone 16 256GB", "codigo": "APL-628S9L", "precio_lum": 143520, "precio_eur": 1380, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Samsung Galaxy S25 Ultra 256GB", "codigo": "SAM-173GWQ", "precio_lum": 177840, "precio_eur": 1710, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Samsung Galaxy S25 Ultra 512GB", "codigo": "SAM-284HX8", "precio_lum": 198640, "precio_eur": 1910, "precio_ltr": 0, "cantidad": 73},
+        {"nombre": "Samsung Galaxy S25 Ultra 1TB", "codigo": "SAM-395JY2", "precio_lum": 224640, "precio_eur": 2160, "precio_ltr": 0, "cantidad": 71},
+        {"nombre": "Samsung Galaxy S25+ 256GB", "codigo": "SAM-417KZ6", "precio_lum": 153920, "precio_eur": 1480, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Samsung Galaxy S25+ 512GB", "codigo": "SAM-529LW4", "precio_lum": 174720, "precio_eur": 1680, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "Samsung Galaxy S25 128GB", "codigo": "SAM-638MX3", "precio_lum": 114400, "precio_eur": 1100, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "Samsung Galaxy S25 256GB", "codigo": "SAM-741NY9", "precio_lum": 133120, "precio_eur": 1280, "precio_ltr": 0, "cantidad": 88},
+        {"nombre": "Google Pixel 10 Pro 256GB", "codigo": "GGL-852PZ1", "precio_lum": 164320, "precio_eur": 1580, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "Google Pixel 10 Pro 512GB", "codigo": "GGL-963QA5", "precio_lum": 185120, "precio_eur": 1780, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Google Pixel 10 128GB", "codigo": "GGL-174RB8", "precio_lum": 114400, "precio_eur": 1100, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Xiaomi 16 Pro 512GB", "codigo": "XIA-285SC3", "precio_lum": 153920, "precio_eur": 1480, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "Xiaomi 16 Ultra 1TB", "codigo": "XIA-396TD7", "precio_lum": 198640, "precio_eur": 1910, "precio_ltr": 0, "cantidad": 71},
+        {"nombre": "OnePlus 13 256GB", "codigo": "OPL-417UE2", "precio_lum": 124800, "precio_eur": 1200, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "OnePlus 13 512GB", "codigo": "OPL-528VF9", "precio_lum": 145600, "precio_eur": 1400, "precio_ltr": 0, "cantidad": 77},
+        {"nombre": "Sony Xperia 2 VI 256GB", "codigo": "SNY-639WG4", "precio_lum": 174720, "precio_eur": 1680, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Huawei P70 Pro 512GB", "codigo": "HUA-741XH8", "precio_lum": 164320, "precio_eur": 1580, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "Nothing Phone (4) 256GB", "codigo": "NTH-852YJ3", "precio_lum": 104000, "precio_eur": 1000, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Honor Magic7 Pro 512GB", "codigo": "HNR-963ZK5", "precio_lum": 143520, "precio_eur": 1380, "precio_ltr": 0, "cantidad": 76}
+      ]
+    },
+    {
+      "nombre": "Teléfonos Móviles Gama Media",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Samsung Galaxy A76 128GB", "codigo": "SAM-174AL2", "precio_lum": 42640, "precio_eur": 410, "precio_ltr": 0, "cantidad": 120},
+        {"nombre": "Samsung Galaxy A76 256GB", "codigo": "SAM-285BM9", "precio_lum": 51480, "precio_eur": 495, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Samsung Galaxy A56 128GB", "codigo": "SAM-396CN4", "precio_lum": 32240, "precio_eur": 310, "precio_ltr": 0, "cantidad": 150},
+        {"nombre": "Samsung Galaxy A56 256GB", "codigo": "SAM-417DP7", "precio_lum": 39520, "precio_eur": 380, "precio_ltr": 0, "cantidad": 110},
+        {"nombre": "Xiaomi Redmi Note 15 Pro 256GB", "codigo": "XIA-528EQ1", "precio_lum": 37440, "precio_eur": 360, "precio_ltr": 0, "cantidad": 140},
+        {"nombre": "Xiaomi Redmi Note 15 Pro+ 512GB", "codigo": "XIA-639FR5", "precio_lum": 46800, "precio_eur": 450, "precio_ltr": 0, "cantidad": 110},
+        {"nombre": "Xiaomi Redmi Note 15 128GB", "codigo": "XIA-741GS8", "precio_lum": 22880, "precio_eur": 220, "precio_ltr": 0, "cantidad": 160},
+        {"nombre": "Google Pixel 10a 128GB", "codigo": "GGL-852HT3", "precio_lum": 42640, "precio_eur": 410, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Google Pixel 10a 256GB", "codigo": "GGL-963JU6", "precio_lum": 51480, "precio_eur": 495, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "OnePlus Nord 5 256GB", "codigo": "OPL-174KV2", "precio_lum": 47840, "precio_eur": 460, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "OnePlus Nord 5 128GB", "codigo": "OPL-285LW9", "precio_lum": 36400, "precio_eur": 350, "precio_ltr": 0, "cantidad": 120},
+        {"nombre": "Nothing Phone (4a) 256GB", "codigo": "NTH-396MX4", "precio_lum": 47840, "precio_eur": 460, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Nothing Phone (4a) 128GB", "codigo": "NTH-417NY8", "precio_lum": 36400, "precio_eur": 350, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Realme GT 8 256GB", "codigo": "RLM-528PZ1", "precio_lum": 52000, "precio_eur": 500, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Realme GT 8 128GB", "codigo": "RLM-639QA5", "precio_lum": 41600, "precio_eur": 400, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "Motorola Edge 60 256GB", "codigo": "MTO-741RB3", "precio_lum": 49920, "precio_eur": 480, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Motorola Edge 60 128GB", "codigo": "MTO-852SC7", "precio_lum": 38480, "precio_eur": 370, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Oppo Find X7 256GB", "codigo": "OPP-963TD2", "precio_lum": 56160, "precio_eur": 540, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Honor 200 Pro 512GB", "codigo": "HNR-174UE9", "precio_lum": 62400, "precio_eur": 600, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Vivo V50 256GB", "codigo": "VIV-285VF4", "precio_lum": 47840, "precio_eur": 460, "precio_ltr": 0, "cantidad": 75}
+      ]
+    },
+    {
+      "nombre": "Teléfonos Móviles Gama Baja",
+      "clasificacion": "B",
+      "productos": [
+        {"nombre": "Samsung Galaxy A26 64GB", "codigo": "SAM-396WG8", "precio_lum": 17680, "precio_eur": 170, "precio_ltr": 0, "cantidad": 200},
+        {"nombre": "Samsung Galaxy A26 128GB", "codigo": "SAM-417XH3", "precio_lum": 21840, "precio_eur": 210, "precio_ltr": 0, "cantidad": 180},
+        {"nombre": "Samsung Galaxy A16 64GB", "codigo": "SAM-528YJ7", "precio_lum": 13520, "precio_eur": 130, "precio_ltr": 0, "cantidad": 250},
+        {"nombre": "Xiaomi Redmi 15C 64GB", "codigo": "XIA-639ZK1", "precio_lum": 12480, "precio_eur": 120, "precio_ltr": 0, "cantidad": 300},
+        {"nombre": "Xiaomi Redmi 15C 128GB", "codigo": "XIA-741AL5", "precio_lum": 15600, "precio_eur": 150, "precio_ltr": 0, "cantidad": 220},
+        {"nombre": "Xiaomi Redmi A5 32GB", "codigo": "XIA-852BM8", "precio_lum": 9360, "precio_eur": 90, "precio_ltr": 0, "cantidad": 400},
+        {"nombre": "Xiaomi Poco M8 128GB", "codigo": "XIA-963CN2", "precio_lum": 16640, "precio_eur": 160, "precio_ltr": 0, "cantidad": 150},
+        {"nombre": "Realme C75 64GB", "codigo": "RLM-174DP4", "precio_lum": 13520, "precio_eur": 130, "precio_ltr": 0, "cantidad": 280},
+        {"nombre": "Realme C75 128GB", "codigo": "RLM-285EQ9", "precio_lum": 16640, "precio_eur": 160, "precio_ltr": 0, "cantidad": 200},
+        {"nombre": "Realme Narzo 70 64GB", "codigo": "RLM-396FR3", "precio_lum": 14560, "precio_eur": 140, "precio_ltr": 0, "cantidad": 220},
+        {"nombre": "Motorola Moto G65 128GB", "codigo": "MTO-417GS6", "precio_lum": 17680, "precio_eur": 170, "precio_ltr": 0, "cantidad": 180},
+        {"nombre": "Motorola Moto G35 64GB", "codigo": "MTO-528HT1", "precio_lum": 13520, "precio_eur": 130, "precio_ltr": 0, "cantidad": 250},
+        {"nombre": "Motorola Moto E25 32GB", "codigo": "MTO-639JU8", "precio_lum": 9360, "precio_eur": 90, "precio_ltr": 0, "cantidad": 350},
+        {"nombre": "Nokia G45 128GB", "codigo": "NOK-741KV4", "precio_lum": 17680, "precio_eur": 170, "precio_ltr": 0, "cantidad": 140},
+        {"nombre": "Nokia G25 64GB", "codigo": "NOK-852LW2", "precio_lum": 12480, "precio_eur": 120, "precio_ltr": 0, "cantidad": 220},
+        {"nombre": "Nokia C35 32GB", "codigo": "NOK-963MX9", "precio_lum": 8320, "precio_eur": 80, "precio_ltr": 0, "cantidad": 350},
+        {"nombre": "Oppo A80 128GB", "codigo": "OPP-174NY5", "precio_lum": 18720, "precio_eur": 180, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Oppo A60 64GB", "codigo": "OPP-285PZ7", "precio_lum": 13520, "precio_eur": 130, "precio_ltr": 0, "cantidad": 200},
+        {"nombre": "Vivo Y40 64GB", "codigo": "VIV-396QA3", "precio_lum": 12480, "precio_eur": 120, "precio_ltr": 0, "cantidad": 150},
+        {"nombre": "TCL 50 128GB", "codigo": "TCL-417RB1", "precio_lum": 15600, "precio_eur": 150, "precio_ltr": 0, "cantidad": 130}
+      ]
+    },
+    {
+      "nombre": "Teléfonos Móviles Gama Entrada",
+      "clasificacion": "C",
+      "productos": [
+        {"nombre": "Samsung Galaxy A06 32GB", "codigo": "SAM-528SC8", "precio_lum": 9360, "precio_eur": 90, "precio_ltr": 0, "cantidad": 500},
+        {"nombre": "Xiaomi Redmi A4 32GB", "codigo": "XIA-639TD4", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 700},
+        {"nombre": "Realme C55 32GB", "codigo": "RLM-741UE6", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 550},
+        {"nombre": "Motorola Moto E15 32GB", "codigo": "MTO-852VF3", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 500},
+        {"nombre": "Nokia C25 32GB", "codigo": "NOK-963WG9", "precio_lum": 6240, "precio_eur": 60, "precio_ltr": 0, "cantidad": 650},
+        {"nombre": "Nokia C15 16GB", "codigo": "NOK-174XH5", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 900},
+        {"nombre": "TCL 40 32GB", "codigo": "TCL-285YJ8", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 400},
+        {"nombre": "TCL 30 16GB", "codigo": "TCL-396ZK2", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 550},
+        {"nombre": "Alcatel 3V 32GB", "codigo": "ALC-417AL6", "precio_lum": 6240, "precio_eur": 60, "precio_ltr": 0, "cantidad": 300},
+        {"nombre": "Alcatel 1V 16GB", "codigo": "ALC-528BM3", "precio_lum": 4160, "precio_eur": 40, "precio_ltr": 0, "cantidad": 500}
+      ]
+    },
+    {
+      "nombre": "Teléfonos Reacondicionados Certificados",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "iPhone 15 Pro Max 256GB (Reac.)", "codigo": "APL-RC7391", "precio_lum": 114400, "precio_eur": 1100, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "iPhone 15 Pro 256GB (Reac.)", "codigo": "APL-RC4822", "precio_lum": 93600, "precio_eur": 900, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "iPhone 15 128GB (Reac.)", "codigo": "APL-RC9153", "precio_lum": 72800, "precio_eur": 700, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Samsung Galaxy S24 Ultra 256GB (Reac.)", "codigo": "SAM-RC2647", "precio_lum": 104000, "precio_eur": 1000, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Samsung Galaxy S24 128GB (Reac.)", "codigo": "SAM-RC5819", "precio_lum": 62400, "precio_eur": 600, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "Google Pixel 9 Pro 256GB (Reac.)", "codigo": "GGL-RC3465", "precio_lum": 83200, "precio_eur": 800, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Xiaomi 15 Pro 512GB (Reac.)", "codigo": "XIA-RC7281", "precio_lum": 72800, "precio_eur": 700, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "OnePlus 12 256GB (Reac.)", "codigo": "OPL-RC1934", "precio_lum": 52000, "precio_eur": 500, "precio_ltr": 0, "cantidad": 78}
+      ]
+    },
+    {
+      "nombre": "Ordenadores Portátiles Gama Alta",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "MacBook Pro 16\" M4 Pro 512GB", "codigo": "APL-174AJ9", "precio_lum": 312000, "precio_eur": 3000, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "MacBook Pro 16\" M4 Max 1TB", "codigo": "APL-285BK4", "precio_lum": 416000, "precio_eur": 4000, "precio_ltr": 0, "cantidad": 71},
+        {"nombre": "MacBook Pro 14\" M4 Pro 512GB", "codigo": "APL-396CL1", "precio_lum": 260000, "precio_eur": 2500, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "MacBook Air 15\" M4 512GB", "codigo": "APL-417DM8", "precio_lum": 208000, "precio_eur": 2000, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "MacBook Air 13\" M4 256GB", "codigo": "APL-528EN3", "precio_lum": 156000, "precio_eur": 1500, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Dell XPS 16 1TB", "codigo": "DLL-639FP6", "precio_lum": 270400, "precio_eur": 2600, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Dell XPS 14 512GB", "codigo": "DLL-741GQ2", "precio_lum": 218400, "precio_eur": 2100, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "HP Spectre x360 16 1TB", "codigo": "HP-852HR9", "precio_lum": 249600, "precio_eur": 2400, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Lenovo ThinkPad X1 Carbon Gen 13", "codigo": "LNV-963JS4", "precio_lum": 239200, "precio_eur": 2300, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "ASUS Zenbook Pro 14X 1TB", "codigo": "ASU-174KT7", "precio_lum": 228800, "precio_eur": 2200, "precio_ltr": 0, "cantidad": 73},
+        {"nombre": "Razer Blade 16 1TB", "codigo": "RZR-285LU2", "precio_lum": 312000, "precio_eur": 3000, "precio_ltr": 0, "cantidad": 71},
+        {"nombre": "Microsoft Surface Laptop 7 512GB", "codigo": "MSF-396MV9", "precio_lum": 208000, "precio_eur": 2000, "precio_ltr": 0, "cantidad": 76}
+      ]
+    },
+    {
+      "nombre": "Electrodomésticos - Frigoríficos",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Samsung Side by Side RS8000 650L", "codigo": "SAM-FRG01", "precio_lum": 218400, "precio_eur": 2100, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "LG InstaView Door-in-Door 680L", "codigo": "LG-FRG03", "precio_lum": 239200, "precio_eur": 2300, "precio_ltr": 0, "cantidad": 73},
+        {"nombre": "Bosch Serie 8 VitaFresh 600L", "codigo": "BSH-FRG05", "precio_lum": 182000, "precio_eur": 1750, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Siemens iQ700 650L", "codigo": "SIE-FRG07", "precio_lum": 202800, "precio_eur": 1950, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "Miele K7000 550L", "codigo": "MIE-FRG09", "precio_lum": 301600, "precio_eur": 2900, "precio_ltr": 0, "cantidad": 71}
+      ]
+    },
+    {
+      "nombre": "Electrodomésticos - Lavadoras",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Miele W5000 10kg", "codigo": "MIE-LAV01", "precio_lum": 202800, "precio_eur": 1950, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Bosch Serie 8 i-DOS 10kg", "codigo": "BSH-LAV02", "precio_lum": 145600, "precio_eur": 1400, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Siemens iQ700 10kg", "codigo": "SIE-LAV03", "precio_lum": 135200, "precio_eur": 1300, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Samsung AddWash 10kg", "codigo": "SAM-LAV04", "precio_lum": 124800, "precio_eur": 1200, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "LG TurboWash 10kg", "codigo": "LG-LAV05", "precio_lum": 114400, "precio_eur": 1100, "precio_ltr": 0, "cantidad": 88}
+      ]
+    },
+    {
+      "nombre": "Electrodomésticos - Cafeteras Superautomáticas",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Jura Z10", "codigo": "JUR-CAF01", "precio_lum": 208000, "precio_eur": 2000, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Jura E8", "codigo": "JUR-CAF02", "precio_lum": 156000, "precio_eur": 1500, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "De'Longhi PrimaDonna Elite", "codigo": "DEL-CAF03", "precio_lum": 166400, "precio_eur": 1600, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "De'Longhi Eletta Explore", "codigo": "DEL-CAF04", "precio_lum": 114400, "precio_eur": 1100, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Siemens EQ900", "codigo": "SIE-CAF05", "precio_lum": 176800, "precio_eur": 1700, "precio_ltr": 0, "cantidad": 73},
+        {"nombre": "Philips Serie 5500 LatteGo", "codigo": "PHI-CAF07", "precio_lum": 98800, "precio_eur": 950, "precio_ltr": 0, "cantidad": 82}
+      ]
+    },
+    {
+      "nombre": "Robots Aspiradores Gama Alta",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Roomba j9+", "codigo": "IRO-ROB01", "precio_lum": 135200, "precio_eur": 1300, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "Roborock S8 MaxV Ultra", "codigo": "ROB-ROB03", "precio_lum": 145600, "precio_eur": 1400, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Dyson 360 Vis Nav", "codigo": "DYS-ROB05", "precio_lum": 187200, "precio_eur": 1800, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Xiaomi Robot Vacuum X30", "codigo": "XIA-ROB06", "precio_lum": 78000, "precio_eur": 750, "precio_ltr": 0, "cantidad": 95}
+      ]
+    },
+    {
+      "nombre": "Aire Acondicionado Split Gama Alta",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Daikin Emura 4 3,5kW", "codigo": "DAI-AC01", "precio_lum": 208000, "precio_eur": 2000, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "Daikin Perfera 3,5kW", "codigo": "DAI-AC02", "precio_lum": 166400, "precio_eur": 1600, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Mitsubishi MSZ-LN 3,5kW", "codigo": "MIT-AC03", "precio_lum": 187200, "precio_eur": 1800, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Samsung WindFree 3,5kW", "codigo": "SAM-AC05", "precio_lum": 124800, "precio_eur": 1200, "precio_ltr": 0, "cantidad": 95}
+      ]
+    },
+    {
+      "nombre": "Vinos Tintos",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Château Margaux 2018 AOC Bordeaux", "codigo": "VIN-285VG7", "precio_lum": 72800, "precio_eur": 700, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Vega Sicilia Único 2012 Ribera del Duero", "codigo": "VIN-417XJ5", "precio_lum": 46800, "precio_eur": 450, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Sassicaia 2019 Bolgheri", "codigo": "VIN-528YK8", "precio_lum": 36400, "precio_eur": 350, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Château Petrus 2016 Pomerol", "codigo": "VIN-639ZL2", "precio_lum": 332800, "precio_eur": 3200, "precio_ltr": 0, "cantidad": 71}
+      ]
+    },
+    {
+      "nombre": "Cava y Champán",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Moët & Chandon Brut Impérial", "codigo": "CHA-417AM4", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Veuve Clicquot Brut", "codigo": "CHA-528BN9", "precio_lum": 5824, "precio_eur": 56, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "Dom Pérignon 2012", "codigo": "CHA-639CP3", "precio_lum": 23920, "precio_eur": 230, "precio_ltr": 0, "cantidad": 78}
+      ]
+    },
+    {
+      "nombre": "Jamón Ibérico",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Jamón Ibérico de Bellota 100% DOP Jabugo", "codigo": "JAM-528LX9", "precio_lum": 56160, "precio_eur": 540, "precio_ltr": 0, "cantidad": 73},
+        {"nombre": "Jamón Ibérico de Bellota 50% DOP Dehesa de Extremadura", "codigo": "JAM-741NZ7", "precio_lum": 35360, "precio_eur": 340, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Paleta Ibérica de Bellota 100%", "codigo": "JAM-852PA1", "precio_lum": 32240, "precio_eur": 310, "precio_ltr": 0, "cantidad": 82}
+      ]
+    },
+    {
+      "nombre": "Quesos",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Roquefort AOC", "codigo": "QUE-174DQ9", "precio_lum": 3640, "precio_eur": 35, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Comté AOC 24 meses", "codigo": "QUE-285ER3", "precio_lum": 3328, "precio_eur": 32, "precio_ltr": 0, "cantidad": 88},
+        {"nombre": "Parmigiano Reggiano DOP 36 meses", "codigo": "QUE-639JV8", "precio_lum": 4368, "precio_eur": 42, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Mozzarella di Bufala Campana DOP", "codigo": "QUE-174NZ3", "precio_lum": 2184, "precio_eur": 21, "precio_ltr": 0, "cantidad": 95}
+      ]
+    },
+    {
+      "nombre": "Pescados y Mariscos",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Salmón Noruego Fresco", "codigo": "PES-528VG7", "precio_lum": 2600, "precio_eur": 25, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Lubina de Acuicultura Fresca", "codigo": "PES-639WH1", "precio_lum": 2912, "precio_eur": 28, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Atún Rojo del Mediterráneo", "codigo": "PES-174AM4", "precio_lum": 6240, "precio_eur": 60, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Gambas Rojas del Mediterráneo", "codigo": "MAR-741GT8", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 74}
+      ]
+    },
+    {
+      "nombre": "Aceite de Oliva Virgen Extra",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "AOVE Arbequina 1L", "codigo": "OLE-174AM4", "precio_lum": 1248, "precio_eur": 12, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "AOVE Picual 1L", "codigo": "OLE-285BN9", "precio_lum": 1144, "precio_eur": 11, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "AOVE Ecológico 1L", "codigo": "OLE-417DQ7", "precio_lum": 1456, "precio_eur": 14, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "AOVE DOP Siurana 500ml", "codigo": "OLE-528ER1", "precio_lum": 1768, "precio_eur": 17, "precio_ltr": 0, "cantidad": 85}
+      ]
+    },
+    {
+      "nombre": "Muebles para el Hogar",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Sofá de 3 plazas tapizado en tela", "codigo": "MUE-001A", "precio_lum": 72800, "precio_eur": 700, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Mesa de comedor extensible 6-8 personas", "codigo": "MUE-002A", "precio_lum": 41600, "precio_eur": 400, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Conjunto de 4 sillas de comedor tapizadas", "codigo": "MUE-003A", "precio_lum": 31200, "precio_eur": 300, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Cama de matrimonio con canapé abatible 150x190", "codigo": "MUE-004A", "precio_lum": 52000, "precio_eur": 500, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Colchón viscoelástico 150x190", "codigo": "MUE-005A", "precio_lum": 36400, "precio_eur": 350, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Armario ropero de 3 puertas correderas", "codigo": "MUE-006A", "precio_lum": 46800, "precio_eur": 450, "precio_ltr": 0, "cantidad": 73},
+        {"nombre": "Estantería modular de 5 baldas", "codigo": "MUE-007A", "precio_lum": 11440, "precio_eur": 110, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Escritorio de oficina en L con cajonera", "codigo": "MUE-008A", "precio_lum": 26000, "precio_eur": 250, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Silla de oficina ergonómica con soporte lumbar", "codigo": "MUE-009A", "precio_lum": 19760, "precio_eur": 190, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Mueble de TV con compartimentos", "codigo": "MUE-010A", "precio_lum": 17680, "precio_eur": 170, "precio_ltr": 0, "cantidad": 82}
+      ]
+    },
+    {
+      "nombre": "Muebles de Jardín y Exterior",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Conjunto de mesa y 4 sillas de jardín en aluminio", "codigo": "MUE-011A", "precio_lum": 26000, "precio_eur": 250, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "Tumbona reclinable de madera tratada", "codigo": "MUE-012A", "precio_lum": 11440, "precio_eur": 110, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Sombrilla de jardín de 3m con base", "codigo": "MUE-013A", "precio_lum": 9880, "precio_eur": 95, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Barbacoa de carbón con patas", "codigo": "MUE-014A", "precio_lum": 7800, "precio_eur": 75, "precio_ltr": 0, "cantidad": 88},
+        {"nombre": "Hamaca colgante de cuerda y algodón", "codigo": "MUE-015A", "precio_lum": 4680, "precio_eur": 45, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "Banco de exterior de hierro forjado", "codigo": "MUE-016A", "precio_lum": 15600, "precio_eur": 150, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Pérgola desmontable de lona impermeable", "codigo": "MUE-017A", "precio_lum": 20800, "precio_eur": 200, "precio_ltr": 0, "cantidad": 74}
+      ]
+    },
+    {
+      "nombre": "Herramientas de Construcción",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Taladro percutor inalámbrico 20V", "codigo": "HER-001A", "precio_lum": 12480, "precio_eur": 120, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Sierra circular de mesa 1500W", "codigo": "HER-002A", "precio_lum": 20800, "precio_eur": 200, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Amoladora angular 850W con discos", "codigo": "HER-003A", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Martillo demoledor eléctrico 15kg", "codigo": "HER-004A", "precio_lum": 36400, "precio_eur": 350, "precio_ltr": 0, "cantidad": 73},
+        {"nombre": "Juego de llaves combinadas 25 piezas", "codigo": "HER-005A", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "Soldador inverter 200A portátil", "codigo": "HER-006A", "precio_lum": 15600, "precio_eur": 150, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Nivel láser autonivelante 360°", "codigo": "HER-007A", "precio_lum": 9880, "precio_eur": 95, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Compresor de aire 50L 2,5CV", "codigo": "HER-008A", "precio_lum": 26000, "precio_eur": 250, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "Generador eléctrico portátil 3kW", "codigo": "HER-009A", "precio_lum": 41600, "precio_eur": 400, "precio_ltr": 0, "cantidad": 74}
+      ]
+    },
+    {
+      "nombre": "Materiales de Construcción",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Saco de cemento gris Portland 25kg", "codigo": "MAT-001A", "precio_lum": 728, "precio_eur": 7, "precio_ltr": 0, "cantidad": 200},
+        {"nombre": "Ladrillo cerámico hueco doble 24x12x9 (palet 500uds)", "codigo": "MAT-002A", "precio_lum": 15600, "precio_eur": 150, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Placa de yeso laminado 250x120x1,5cm", "codigo": "MAT-003A", "precio_lum": 1248, "precio_eur": 12, "precio_ltr": 0, "cantidad": 150},
+        {"nombre": "Pintura plástica blanca mate 15L", "codigo": "MAT-004A", "precio_lum": 4160, "precio_eur": 40, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Juego de brocas para hormigón 10 piezas", "codigo": "MAT-005A", "precio_lum": 2080, "precio_eur": 20, "precio_ltr": 0, "cantidad": 120},
+        {"nombre": "Tubería de PVC para saneamiento 110mm 3m", "codigo": "MAT-006A", "precio_lum": 1040, "precio_eur": 10, "precio_ltr": 0, "cantidad": 140},
+        {"nombre": "Arena de construcción lavada 1m³", "codigo": "MAT-007A", "precio_lum": 3640, "precio_eur": 35, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Bobina de cable eléctrico 2,5mm² 100m", "codigo": "MAT-008A", "precio_lum": 6240, "precio_eur": 60, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Mortero adhesivo para baldosas 20kg", "codigo": "MAT-009A", "precio_lum": 936, "precio_eur": 9, "precio_ltr": 0, "cantidad": 130}
+      ]
+    },
+    {
+      "nombre": "Productos de Aseo Personal",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Gel de ducha hidratante 1L", "codigo": "ASE-001A", "precio_lum": 468, "precio_eur": 4.50, "precio_ltr": 0, "cantidad": 150},
+        {"nombre": "Champú reparador 500ml", "codigo": "ASE-002A", "precio_lum": 416, "precio_eur": 4, "precio_ltr": 0, "cantidad": 140},
+        {"nombre": "Pasta dentífrica blanqueadora 150ml", "codigo": "ASE-003A", "precio_lum": 364, "precio_eur": 3.50, "precio_ltr": 0, "cantidad": 160},
+        {"nombre": "Desodorante en spray 200ml", "codigo": "ASE-004A", "precio_lum": 312, "precio_eur": 3, "precio_ltr": 0, "cantidad": 180},
+        {"nombre": "Crema hidratante facial 50ml", "codigo": "ASE-005A", "precio_lum": 832, "precio_eur": 8, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Jabón de manos líquido 500ml", "codigo": "ASE-006A", "precio_lum": 208, "precio_eur": 2, "precio_ltr": 0, "cantidad": 200},
+        {"nombre": "Cepillo de dientes eléctrico recargable", "codigo": "ASE-007A", "precio_lum": 4160, "precio_eur": 40, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Máquina de afeitar 5 hojas desechable (pack 4)", "codigo": "ASE-008A", "precio_lum": 728, "precio_eur": 7, "precio_ltr": 0, "cantidad": 110}
+      ]
+    },
+    {
+      "nombre": "Productos de Limpieza del Hogar",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Detergente líquido lavadora 3L", "codigo": "LIM-001A", "precio_lum": 728, "precio_eur": 7, "precio_ltr": 0, "cantidad": 140},
+        {"nombre": "Limpiador multiusos 1L", "codigo": "LIM-002A", "precio_lum": 312, "precio_eur": 3, "precio_ltr": 0, "cantidad": 170},
+        {"nombre": "Lejía concentrada 2L", "codigo": "LIM-003A", "precio_lum": 208, "precio_eur": 2, "precio_ltr": 0, "cantidad": 190},
+        {"nombre": "Lavavajillas en pastillas (pack 50uds)", "codigo": "LIM-004A", "precio_lum": 624, "precio_eur": 6, "precio_ltr": 0, "cantidad": 120},
+        {"nombre": "Limpiacristales con pulverizador 750ml", "codigo": "LIM-005A", "precio_lum": 364, "precio_eur": 3.50, "precio_ltr": 0, "cantidad": 150},
+        {"nombre": "Fregona de microfibra con cubo escurridor", "codigo": "LIM-006A", "precio_lum": 2080, "precio_eur": 20, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Aspiradora de mano sin cable 15kPa", "codigo": "LIM-007A", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Ambientador eléctrico con recambios (pack 3)", "codigo": "LIM-008A", "precio_lum": 1248, "precio_eur": 12, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Bayetas de microfibra (pack 10uds)", "codigo": "LIM-009A", "precio_lum": 520, "precio_eur": 5, "precio_ltr": 0, "cantidad": 180}
+      ]
+    },
+    {
+      "nombre": "Juguetes",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Set de construcción bloques 500 piezas", "codigo": "JUG-001A", "precio_lum": 4160, "precio_eur": 40, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Muñeca interactiva con accesorios", "codigo": "JUG-002A", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Coche teledirigido todoterreno recargable", "codigo": "JUG-003A", "precio_lum": 6240, "precio_eur": 60, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Juego de mesa estrategia familiar", "codigo": "JUG-004A", "precio_lum": 3640, "precio_eur": 35, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "Puzzle 3D de monumentos 1000 piezas", "codigo": "JUG-005A", "precio_lum": 2600, "precio_eur": 25, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Pista de coches eléctrica con looping", "codigo": "JUG-006A", "precio_lum": 8320, "precio_eur": 80, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Peluche gigante oso 120cm", "codigo": "JUG-007A", "precio_lum": 4680, "precio_eur": 45, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Consola de videojuegos portátil retro", "codigo": "JUG-008A", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 76}
+      ]
+    },
+    {
+      "nombre": "Tecnología y Gadgets",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Auriculares inalámbricos con cancelación de ruido ANC", "codigo": "TEC-001S", "precio_lum": 15600, "precio_eur": 150, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Tableta gráfica digitalizadora 10\"", "codigo": "TEC-002S", "precio_lum": 8320, "precio_eur": 80, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Hub USB-C multipuerto 7 en 1", "codigo": "TEC-003S", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "Disco duro externo SSD 1TB", "codigo": "TEC-004S", "precio_lum": 10400, "precio_eur": 100, "precio_ltr": 0, "cantidad": 88},
+        {"nombre": "Teclado mecánico retroiluminado RGB", "codigo": "TEC-005S", "precio_lum": 9360, "precio_eur": 90, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Ratón ergonómico vertical inalámbrico", "codigo": "TEC-006S", "precio_lum": 4160, "precio_eur": 40, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Router Wi-Fi 7 de doble banda", "codigo": "TEC-007S", "precio_lum": 22880, "precio_eur": 220, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Cargador inalámbrico rápido 15W", "codigo": "TEC-008S", "precio_lum": 3120, "precio_eur": 30, "precio_ltr": 0, "cantidad": 100}
+      ]
+    },
+    {
+      "nombre": "Iluminación para el Hogar",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Lámpara de techo LED regulable 36W", "codigo": "ILU-001A", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Tira LED inteligente WiFi 5m", "codigo": "ILU-002A", "precio_lum": 2600, "precio_eur": 25, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Lámpara de pie salón con brazo articulado", "codigo": "ILU-003A", "precio_lum": 8320, "precio_eur": 80, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Bombilla LED inteligente WiFi compatible Alexa", "codigo": "ILU-004A", "precio_lum": 1248, "precio_eur": 12, "precio_ltr": 0, "cantidad": 120},
+        {"nombre": "Aplique de pared exterior IP65 sensor movimiento", "codigo": "ILU-005A", "precio_lum": 3640, "precio_eur": 35, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Lámpara de escritorio LED con pinza", "codigo": "ILU-006A", "precio_lum": 2600, "precio_eur": 25, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Foco LED exterior 100W reflector", "codigo": "ILU-007A", "precio_lum": 4160, "precio_eur": 40, "precio_ltr": 0, "cantidad": 78}
+      ]
+    },
+    {
+      "nombre": "Rones y Destilados",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Ron Zacapa Centenario 23 Años", "codigo": "RON-001S", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Ron Diplomático Reserva Exclusiva", "codigo": "RON-002S", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Ron Flor de Caña 18 Años", "codigo": "RON-003S", "precio_lum": 6240, "precio_eur": 60, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Ron Brugal 1888 Gran Reserva", "codigo": "RON-004S", "precio_lum": 4680, "precio_eur": 45, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Ron Havana Club Selección de Maestros", "codigo": "RON-005S", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Ron Plantation XO 20 Aniversario", "codigo": "RON-006S", "precio_lum": 8320, "precio_eur": 80, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "Ron Appleton Estate 21 Años", "codigo": "RON-007S", "precio_lum": 11440, "precio_eur": 110, "precio_ltr": 0, "cantidad": 72}
+      ]
+    },
+    {
+      "nombre": "Medicamentos sin Receta",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Paracetamol 1g comprimidos 20uds", "codigo": "MED-001A", "precio_lum": 468, "precio_eur": 4.50, "precio_ltr": 0, "cantidad": 150},
+        {"nombre": "Ibuprofeno 400mg comprimidos 20uds", "codigo": "MED-002A", "precio_lum": 520, "precio_eur": 5, "precio_ltr": 0, "cantidad": 140},
+        {"nombre": "Antihistamínico loratadina 10mg 10uds", "codigo": "MED-003A", "precio_lum": 728, "precio_eur": 7, "precio_ltr": 0, "cantidad": 110},
+        {"nombre": "Pomada antiinflamatoria muscular 100g", "codigo": "MED-004A", "precio_lum": 832, "precio_eur": 8, "precio_ltr": 0, "cantidad": 95},
+        {"nombre": "Suplemento de vitamina C 1000mg 30uds", "codigo": "MED-005A", "precio_lum": 624, "precio_eur": 6, "precio_ltr": 0, "cantidad": 120},
+        {"nombre": "Solución salina estéril monodosis 20uds", "codigo": "MED-006A", "precio_lum": 364, "precio_eur": 3.50, "precio_ltr": 0, "cantidad": 160},
+        {"nombre": "Alcohol sanitario 96° 1L", "codigo": "MED-007A", "precio_lum": 520, "precio_eur": 5, "precio_ltr": 0, "cantidad": 130}
+      ]
+    },
+    {
+      "nombre": "Sábanas y Ropa de Cama",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Juego de sábanas algodón 150x190 blanco", "codigo": "SAB-001A", "precio_lum": 3120, "precio_eur": 30, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Juego de sábanas algodón 180x200 gris", "codigo": "SAB-002A", "precio_lum": 3640, "precio_eur": 35, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Funda nórdica 220x240 con cremallera", "codigo": "SAB-003A", "precio_lum": 4680, "precio_eur": 45, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Relleno nórdico plumón sintético 150x190", "codigo": "SAB-004A", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Protector de colchón impermeable 180x200", "codigo": "SAB-005A", "precio_lum": 2600, "precio_eur": 25, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Colcha acolchada reversible 200x230", "codigo": "SAB-006A", "precio_lum": 6240, "precio_eur": 60, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "Almohada viscoelástica cervical 70cm", "codigo": "SAB-007A", "precio_lum": 3120, "precio_eur": 30, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Almohada de fibra hueca siliconada 90cm", "codigo": "SAB-008A", "precio_lum": 1560, "precio_eur": 15, "precio_ltr": 0, "cantidad": 100}
+      ]
+    },
+    {
+      "nombre": "Toallas y Textil de Baño",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Toalla de baño 100x150 algodón 500g", "codigo": "TOA-001A", "precio_lum": 1560, "precio_eur": 15, "precio_ltr": 0, "cantidad": 100},
+        {"nombre": "Toalla de mano 50x90 algodón 300g", "codigo": "TOA-002A", "precio_lum": 832, "precio_eur": 8, "precio_ltr": 0, "cantidad": 120},
+        {"nombre": "Juego de 3 toallas cara lavabo invitado", "codigo": "TOA-003A", "precio_lum": 1040, "precio_eur": 10, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Albornoz de rizo algodón talla única", "codigo": "TOA-004A", "precio_lum": 4160, "precio_eur": 40, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Alfombrilla de baño antideslizante 60x90", "codigo": "TOA-005A", "precio_lum": 2080, "precio_eur": 20, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Cortina de ducha impermeable 180x200 con ganchos", "codigo": "TOA-006A", "precio_lum": 1560, "precio_eur": 15, "precio_ltr": 0, "cantidad": 85}
+      ]
+    },
+    {
+      "nombre": "Cristalería y Menaje",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Juego de 6 copas de vino tinto cristal", "codigo": "CRI-001S", "precio_lum": 4680, "precio_eur": 45, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Juego de 6 copas de cava flauta cristal", "codigo": "CRI-002S", "precio_lum": 4160, "precio_eur": 40, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Juego de 6 vasos de agua cristal alto", "codigo": "CRI-003S", "precio_lum": 3120, "precio_eur": 30, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Decantador de vino de cristal soplado 1,5L", "codigo": "CRI-004S", "precio_lum": 5200, "precio_eur": 50, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "Vajilla porcelana blanca 18 piezas", "codigo": "CRI-005S", "precio_lum": 12480, "precio_eur": 120, "precio_ltr": 0, "cantidad": 73},
+        {"nombre": "Cubertería acero inoxidable 24 piezas", "codigo": "CRI-006S", "precio_lum": 6240, "precio_eur": 60, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Jarra de vidrio con tapa 2L", "codigo": "CRI-007S", "precio_lum": 2080, "precio_eur": 20, "precio_ltr": 0, "cantidad": 82}
+      ]
+    },
+    {
+      "nombre": "Paneles Solares y Energía Solar",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Panel solar monocristalino 450W 24V", "codigo": "SOL-001S", "precio_lum": 26000, "precio_eur": 250, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Kit solar autoconsumo 3kW con inversor", "codigo": "SOL-002S", "precio_lum": 156000, "precio_eur": 1500, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Batería de litio para sistema solar 5kWh", "codigo": "SOL-003S", "precio_lum": 124800, "precio_eur": 1200, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "Inversor solar híbrido 5kW 48V", "codigo": "SOL-004S", "precio_lum": 83200, "precio_eur": 800, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "Regulador de carga MPPT 60A", "codigo": "SOL-005S", "precio_lum": 15600, "precio_eur": 150, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Panel solar plegable portátil 100W", "codigo": "SOL-006S", "precio_lum": 12480, "precio_eur": 120, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Bomba de agua solar sumergible 48V", "codigo": "SOL-007S", "precio_lum": 20800, "precio_eur": 200, "precio_ltr": 0, "cantidad": 78}
+      ]
+    },
+    {
+      "nombre": "Generadores Eléctricos",
+      "clasificacion": "A",
+      "productos": [
+        {"nombre": "Generador gasolina 3kW monofásico", "codigo": "GEN-001A", "precio_lum": 36400, "precio_eur": 350, "precio_ltr": 0, "cantidad": 76},
+        {"nombre": "Generador diésel 10kW trifásico", "codigo": "GEN-002A", "precio_lum": 104000, "precio_eur": 1000, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Generador inverter silencioso 2kW", "codigo": "GEN-003A", "precio_lum": 52000, "precio_eur": 500, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Grupo electrógeno portátil 6,5kW", "codigo": "GEN-004A", "precio_lum": 72800, "precio_eur": 700, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "Batería estación de energía portátil 500Wh", "codigo": "GEN-005A", "precio_lum": 41600, "precio_eur": 400, "precio_ltr": 0, "cantidad": 80},
+        {"nombre": "Kit mantenimiento generador (aceite, filtro, bujía)", "codigo": "GEN-006A", "precio_lum": 4160, "precio_eur": 40, "precio_ltr": 0, "cantidad": 90},
+        {"nombre": "Alargadera exterior 25m 3 tomas IP44", "codigo": "GEN-007A", "precio_lum": 2600, "precio_eur": 25, "precio_ltr": 0, "cantidad": 100}
+      ]
+    },
+    {
+      "nombre": "Cámaras Fotográficas y de Seguridad",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "Cámara réflex digital 24MP con lente 18-55mm", "codigo": "CAM-001S", "precio_lum": 62400, "precio_eur": 600, "precio_ltr": 0, "cantidad": 74},
+        {"nombre": "Cámara mirrorless 33MP con lente 28-70mm", "codigo": "CAM-002S", "precio_lum": 93600, "precio_eur": 900, "precio_ltr": 0, "cantidad": 72},
+        {"nombre": "Cámara instantánea con papel fotográfico pack 20", "codigo": "CAM-003S", "precio_lum": 8320, "precio_eur": 80, "precio_ltr": 0, "cantidad": 82},
+        {"nombre": "Cámara de seguridad exterior WiFi 4MP visión nocturna", "codigo": "CAM-004S", "precio_lum": 9880, "precio_eur": 95, "precio_ltr": 0, "cantidad": 85},
+        {"nombre": "Kit 4 cámaras de seguridad CCTV con grabador 1TB", "codigo": "CAM-005S", "precio_lum": 31200, "precio_eur": 300, "precio_ltr": 0, "cantidad": 75},
+        {"nombre": "Cámara deportiva 5K sumergible con estabilizador", "codigo": "CAM-006S", "precio_lum": 36400, "precio_eur": 350, "precio_ltr": 0, "cantidad": 78},
+        {"nombre": "Timbre con cámara WiFi 1080p batería recargable", "codigo": "CAM-007S", "precio_lum": 7280, "precio_eur": 70, "precio_ltr": 0, "cantidad": 82}
+      ]
+    }
+  ]
+}
