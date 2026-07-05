@@ -1,14 +1,59 @@
 import sqlite3
 import json
 import hashlib
+import os
 from datetime import datetime, timedelta
 
 DB_PATH = 'economia.db'
+DATA_DIR = 'data'
+CATALOGO_DIR = 'catalogo'
+
+def ensure_dirs():
+    """Crea las carpetas si no existen"""
+    if not os.path.exists(DATA_DIR):
+        os.makedirs(DATA_DIR)
+    if not os.path.exists(CATALOGO_DIR):
+        os.makedirs(CATALOGO_DIR)
+
+def load_json(filename, default=None):
+    """Carga un JSON de data/ o crea uno por defecto"""
+    filepath = os.path.join(DATA_DIR, filename)
+    if os.path.exists(filepath):
+        with open(filepath, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    else:
+        if default is not None:
+            save_json(filename, default)
+            return default
+        return None
+
+def save_json(filename, data):
+    """Guarda un JSON en data/"""
+    filepath = os.path.join(DATA_DIR, filename)
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+def load_catalogo(tienda_nombre):
+    """Carga el catálogo de una tienda desde catalogo/"""
+    safe_name = tienda_nombre.replace(' ', '_').replace('ñ', 'n')
+    filepath = os.path.join(CATALOGO_DIR, f"{safe_name}.json")
+    if os.path.exists(filepath):
+        with open(filepath, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return None
+
+def save_catalogo(tienda_nombre, data):
+    """Guarda el catálogo de una tienda en catalogo/"""
+    safe_name = tienda_nombre.replace(' ', '_').replace('ñ', 'n')
+    filepath = os.path.join(CATALOGO_DIR, f"{safe_name}.json")
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def init_db():
+    ensure_dirs()
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.executescript('''
@@ -101,6 +146,7 @@ def init_db():
             precio_cuenta_eur REAL DEFAULT 0,
             precio_cuenta_ltr REAL DEFAULT 0,
             monedas_aceptadas TEXT,
+            archivo_catalogo TEXT,
             ubicacion_id INTEGER DEFAULT 1,
             FOREIGN KEY(ubicacion_id) REFERENCES ubicaciones(id)
         );
@@ -197,12 +243,36 @@ def registrar_jugador(nombre, contrasena, ubicacion_id):
               (nombre, hash_password(contrasena), ubicacion_id))
     conn.commit()
     conn.close()
+    exportar_jugadores()
 
 def verificar_login(nombre, contrasena):
     j = get_jugador_by_nombre(nombre)
     if j and j[2] == hash_password(contrasena):
         return j
     return None
+
+def exportar_jugadores():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute("SELECT id, nombre, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id FROM jugadores")
+    jugadores = [dict(row) for row in c.fetchall()]
+    conn.close()
+    save_json('jugadores.json', {'jugadores': jugadores})
+
+def importar_jugadores(data):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    creados = 0
+    for j in data.get('jugadores', []):
+        c.execute("SELECT id FROM jugadores WHERE id = ?", (j['id'],))
+        if not c.fetchone():
+            c.execute("INSERT INTO jugadores (id, nombre, contrasena, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                      (j['id'], j['nombre'], 'importado', j['efectivo_lum'], j['efectivo_eur'], j['efectivo_ltr'], j.get('ubicacion_id', 1)))
+            creados += 1
+    conn.commit()
+    conn.close()
+    return creados
 
 def get_ubicacion_jugador(jugador_id):
     conn = sqlite3.connect(DB_PATH)
@@ -252,13 +322,6 @@ def get_ubicaciones():
     conn.close()
     return r
 
-def add_ubicacion(nombre, region, tipo='ciudad'):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("INSERT OR IGNORE INTO ubicaciones (nombre, region, tipo) VALUES (?, ?, ?)", (nombre, region, tipo))
-    conn.commit()
-    conn.close()
-
 def get_rutas_desde(origen_id):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -274,16 +337,6 @@ def get_ruta(origen_id, destino_id):
     r = c.fetchone()
     conn.close()
     return r
-
-def add_ruta(origen_id, destino_id, p_pub_lum, p_pub_eur, t_pub, p_esp_lum, p_esp_eur, t_esp, p_pre_lum, p_pre_eur, t_pre):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("SELECT COUNT(*) FROM rutas WHERE origen_id = ? AND destino_id = ?", (origen_id, destino_id))
-    if c.fetchone()[0] == 0:
-        c.execute("INSERT INTO rutas (origen_id, destino_id, precio_publico_lum, precio_publico_eur, tiempo_publico, precio_especial_lum, precio_especial_eur, tiempo_especial, precio_premium_lum, precio_premium_eur, tiempo_premium) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                  (origen_id, destino_id, p_pub_lum, p_pub_eur, t_pub, p_esp_lum, p_esp_eur, t_esp, p_pre_lum, p_pre_eur, t_pre))
-    conn.commit()
-    conn.close()
 
 def puede_viajar(jugador_id):
     conn = sqlite3.connect(DB_PATH)
@@ -305,17 +358,11 @@ def viajar(jugador_id, destino_id, tipo_transporte):
         return False, "Ruta no disponible"
     
     if tipo_transporte == 'publico':
-        costo_lum = ruta[3]
-        costo_eur = ruta[4]
-        tiempo = ruta[5]
+        costo_lum, costo_eur, tiempo = ruta[3], ruta[4], ruta[5]
     elif tipo_transporte == 'especial':
-        costo_lum = ruta[6]
-        costo_eur = ruta[7]
-        tiempo = ruta[8]
+        costo_lum, costo_eur, tiempo = ruta[6], ruta[7], ruta[8]
     else:
-        costo_lum = ruta[9]
-        costo_eur = ruta[10]
-        tiempo = ruta[11]
+        costo_lum, costo_eur, tiempo = ruta[9], ruta[10], ruta[11]
     
     if not puede_viajar(jugador_id):
         conn.close()
@@ -326,7 +373,7 @@ def viajar(jugador_id, destino_id, tipo_transporte):
     c.execute("UPDATE jugadores SET ubicacion_id = ? WHERE id = ?", (destino_id, jugador_id))
     conn.commit()
     conn.close()
-    return True, f"Viaje a destino completado. Tiempo: {tiempo} min"
+    return True, f"Viaje completado. Tiempo: {tiempo} min"
 
 # ============ BANCOS ============
 def get_bancos():
@@ -409,10 +456,6 @@ def transferir(jugador_id, origen, destino, monto, pin):
     
     c.execute("UPDATE cuentas SET saldo = saldo - ? WHERE id = ?", (total, origen))
     c.execute("UPDATE cuentas SET saldo = saldo + ? WHERE id = ?", (monto, destino))
-    c.execute("INSERT INTO transacciones_financieras (jugador_id, cuenta_id, tipo, operacion, monto, moneda, concepto) VALUES (?, ?, 'debito', 'Transferencia', ?, ?, ?)",
-              (jugador_id, origen, monto, co[2], f"Enviada a {destino}"))
-    c.execute("INSERT INTO transacciones_financieras (jugador_id, cuenta_id, tipo, operacion, monto, moneda, concepto) VALUES (?, ?, 'credito', 'Transferencia', ?, ?, ?)",
-              (cd[1], destino, monto, co[2], f"Recibida de {origen}"))
     conn.commit()
     conn.close()
     return True, f"Transferencia exitosa (comisión: {comision} EUR)"
@@ -494,24 +537,6 @@ def depositar_efectivo(jugador_id, moneda, monto, cuenta_id):
     conn.close()
     return True, "Depósito exitoso"
 
-def cobrar_interes(cuenta_id):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("SELECT c.saldo, c.ultimo_interes, b.interes FROM cuentas c JOIN bancos b ON c.banco_id = b.id WHERE c.id = ?", (cuenta_id,))
-    r = c.fetchone()
-    if not r:
-        conn.close()
-        return False
-    ahora = datetime.now()
-    if r[1] and (ahora - datetime.strptime(r[1], '%Y-%m-%d %H:%M:%S')).days < 30:
-        conn.close()
-        return False
-    interes = r[0] * (r[2] / 100)
-    c.execute("UPDATE cuentas SET saldo = saldo + ?, ultimo_interes = ? WHERE id = ?", (interes, ahora, cuenta_id))
-    conn.commit()
-    conn.close()
-    return True
-
 # ============ TIENDAS Y PRODUCTOS ============
 def get_tiendas():
     conn = sqlite3.connect(DB_PATH)
@@ -528,40 +553,6 @@ def get_tienda_by_id(tid):
     r = c.fetchone()
     conn.close()
     return r
-
-def tiene_cuenta_tienda(jugador_id, tienda_id):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("SELECT id FROM cuentas_tienda WHERE jugador_id = ? AND tienda_id = ?", (jugador_id, tienda_id))
-    r = c.fetchone()
-    conn.close()
-    return r is not None
-
-def comprar_cuenta_tienda(jugador_id, tienda_id, moneda, cuenta_id=None):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    tienda = get_tienda_by_id(tienda_id)
-    precios = {'LUM': tienda[3], 'EUR': tienda[4], 'LTR': tienda[5]}
-    precio = precios.get(moneda, 0)
-    if cuenta_id:
-        c.execute("SELECT saldo, jugador_id, moneda FROM cuentas WHERE id = ?", (cuenta_id,))
-        cu = c.fetchone()
-        if not cu or cu[1] != jugador_id or cu[2] != moneda or cu[0] < precio:
-            conn.close()
-            return False, "Saldo insuficiente"
-        c.execute("UPDATE cuentas SET saldo = saldo - ? WHERE id = ?", (precio, cuenta_id))
-    else:
-        col = f"efectivo_{moneda.lower()}"
-        c.execute(f"SELECT {col} FROM jugadores WHERE id = ?", (jugador_id,))
-        e = c.fetchone()
-        if not e or e[0] < precio:
-            conn.close()
-            return False, "Efectivo insuficiente"
-        c.execute(f"UPDATE jugadores SET {col} = {col} - ? WHERE id = ?", (precio, jugador_id))
-    c.execute("INSERT INTO cuentas_tienda (jugador_id, tienda_id) VALUES (?, ?)", (jugador_id, tienda_id))
-    conn.commit()
-    conn.close()
-    return True, f"Cuenta en {tienda[1]} creada"
 
 def buscar_productos(query):
     conn = sqlite3.connect(DB_PATH)
@@ -647,7 +638,6 @@ def comprar_item_comprador(comprador_id, item_id, cuenta_id, moneda):
     if not item or not item[6] or item[1] == comprador_id:
         conn.close()
         return False, "Item no disponible"
-    # Verificar misma ubicación
     c.execute("SELECT ubicacion_id FROM jugadores WHERE id = ?", (comprador_id,))
     uc = c.fetchone()[0]
     c.execute("SELECT ubicacion_id FROM jugadores WHERE id = ?", (item[1],))
@@ -678,7 +668,7 @@ def comprar_item_comprador(comprador_id, item_id, cuenta_id, moneda):
     conn.close()
     return True, "Compra exitosa"
 
-# ============ EMPRESAS Y ACCIONES ============
+# ============ EMPRESAS Y ACCIONES (SOLO EUR) ============
 def get_empresas():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -694,14 +684,6 @@ def get_empresa_by_id(eid):
     r = c.fetchone()
     conn.close()
     return r
-
-def add_empresa(nombre, sector, valor, totales, disponibles):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("INSERT OR IGNORE INTO empresas (nombre, sector, valor_accion, acciones_totales, acciones_disponibles) VALUES (?,?,?,?,?)",
-              (nombre, sector, valor, totales, disponibles))
-    conn.commit()
-    conn.close()
 
 def actualizar_valor_empresa(empresa_id, nuevo_valor):
     conn = sqlite3.connect(DB_PATH)
@@ -727,18 +709,28 @@ def buscar_ofertas_acciones(query):
     return r
 
 def comprar_acciones(jugador_id, empresa_id, cantidad, cuenta_id):
+    """Compra acciones de empresa - SOLO EUR"""
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     emp = get_empresa_by_id(empresa_id)
     if not emp or emp[4] < cantidad:
         conn.close()
         return False, "Acciones insuficientes"
-    costo = emp[3] * cantidad
-    c.execute("SELECT saldo FROM cuentas WHERE id=? AND jugador_id=?", (cuenta_id, jugador_id))
+    
+    c.execute("SELECT saldo, moneda FROM cuentas WHERE id=? AND jugador_id=?", (cuenta_id, jugador_id))
     cu = c.fetchone()
-    if not cu or cu[0] < costo:
+    if not cu:
         conn.close()
-        return False, "Saldo insuficiente"
+        return False, "Cuenta no válida"
+    if cu[1] != 'EUR':
+        conn.close()
+        return False, "Solo se aceptan cuentas en EUR para comprar acciones"
+    
+    costo = emp[3] * cantidad
+    if cu[0] < costo:
+        conn.close()
+        return False, f"Saldo insuficiente. Necesitas {costo:.2f} EUR"
+    
     c.execute("UPDATE cuentas SET saldo=saldo-? WHERE id=?", (costo, cuenta_id))
     c.execute("UPDATE empresas SET acciones_disponibles=acciones_disponibles-? WHERE id=?", (cantidad, empresa_id))
     c.execute("SELECT id FROM acciones WHERE jugador_id=? AND empresa_id=? AND en_venta=0", (jugador_id, empresa_id))
@@ -747,11 +739,15 @@ def comprar_acciones(jugador_id, empresa_id, cantidad, cuenta_id):
         c.execute("UPDATE acciones SET cantidad=cantidad+?, precio_compra=? WHERE id=?", (cantidad, emp[3], ex[0]))
     else:
         c.execute("INSERT INTO acciones (jugador_id, empresa_id, cantidad, precio_compra) VALUES (?,?,?,?)", (jugador_id, empresa_id, cantidad, emp[3]))
+    
+    c.execute("INSERT INTO transacciones_financieras (jugador_id, cuenta_id, tipo, operacion, monto, moneda, concepto) VALUES (?, ?, 'debito', 'Compra acciones', ?, 'EUR', ?)",
+              (jugador_id, cuenta_id, costo, f"{cantidad} acciones de {emp[1]}"))
     conn.commit()
     conn.close()
-    return True, f"Compradas {cantidad} acciones"
+    return True, f"Compradas {cantidad} acciones de {emp[1]} por {costo:.2f} EUR"
 
 def vender_acciones(jugador_id, acciones_id, cantidad, precio_venta):
+    """Pone acciones en venta - precio en EUR"""
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("SELECT * FROM acciones WHERE id=? AND jugador_id=?", (acciones_id, jugador_id))
@@ -762,9 +758,10 @@ def vender_acciones(jugador_id, acciones_id, cantidad, precio_venta):
     c.execute("UPDATE acciones SET cantidad=cantidad-?, en_venta=1, precio_venta=? WHERE id=?", (cantidad, precio_venta, acciones_id))
     conn.commit()
     conn.close()
-    return True, "Acciones en venta"
+    return True, f"Acciones en venta a {precio_venta:.2f} EUR c/u"
 
 def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
+    """Compra acciones en oferta - SOLO EUR"""
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("SELECT * FROM acciones WHERE id=? AND en_venta=1", (accion_id,))
@@ -772,14 +769,23 @@ def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
     if not a or a[3] < cantidad:
         conn.close()
         return False, "Oferta no disponible"
-    costo = a[7] * cantidad
-    c.execute("SELECT saldo FROM cuentas WHERE id=? AND jugador_id=?", (cuenta_id, comprador_id))
+    
+    c.execute("SELECT saldo, moneda FROM cuentas WHERE id=? AND jugador_id=?", (cuenta_id, comprador_id))
     cu = c.fetchone()
-    if not cu or cu[0] < costo:
+    if not cu:
         conn.close()
-        return False, "Saldo insuficiente"
+        return False, "Cuenta no válida"
+    if cu[1] != 'EUR':
+        conn.close()
+        return False, "Solo se aceptan cuentas en EUR para comprar acciones"
+    
+    costo = a[7] * cantidad
+    if cu[0] < costo:
+        conn.close()
+        return False, f"Saldo insuficiente. Necesitas {costo:.2f} EUR"
+    
     c.execute("UPDATE cuentas SET saldo=saldo-? WHERE id=?", (costo, cuenta_id))
-    c.execute("SELECT id FROM cuentas WHERE jugador_id=? LIMIT 1", (a[1],))
+    c.execute("SELECT id FROM cuentas WHERE jugador_id=? AND moneda='EUR' LIMIT 1", (a[1],))
     cv = c.fetchone()
     if cv:
         c.execute("UPDATE cuentas SET saldo=saldo+? WHERE id=?", (costo, cv[0]))
@@ -790,9 +796,12 @@ def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
         c.execute("UPDATE acciones SET cantidad=cantidad+? WHERE id=?", (cantidad, ex[0]))
     else:
         c.execute("INSERT INTO acciones (jugador_id, empresa_id, cantidad, precio_compra) VALUES (?,?,?,?)", (comprador_id, a[2], cantidad, a[7]))
+    
+    c.execute("INSERT INTO transacciones_financieras (jugador_id, cuenta_id, tipo, operacion, monto, moneda, concepto) VALUES (?, ?, 'debito', 'Compra acciones', ?, 'EUR', ?)",
+              (comprador_id, cuenta_id, costo, f"{cantidad} acciones"))
     conn.commit()
     conn.close()
-    return True, "Compra exitosa"
+    return True, f"Compra exitosa. Costo: {costo:.2f} EUR"
 
 def get_historial_financiero(jugador_id, limite=10):
     conn = sqlite3.connect(DB_PATH)
@@ -811,7 +820,8 @@ def agregar_inventario(jugador_id, nombre, clasif, cantidad, unidad):
     conn.close()
 
 # ============ IMPORTACIÓN JSON ============
-def importar_bancos_json(data):
+def importar_bancos_desde_json():
+    data = load_json('bancos.json', {'bancos': []})
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     creados = 0
@@ -847,7 +857,8 @@ def importar_bancos_json(data):
     conn.close()
     return creados, cambios
 
-def importar_ubicaciones_json(data):
+def importar_ubicaciones_desde_json():
+    data = load_json('ubicaciones.json', {'ubicaciones': []})
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     creadas = 0
@@ -861,7 +872,8 @@ def importar_ubicaciones_json(data):
     conn.close()
     return creadas
 
-def importar_rutas_json(data):
+def importar_rutas_desde_json():
+    data = load_json('rutas.json', {'rutas': []})
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     creadas = 0
@@ -882,23 +894,28 @@ def importar_rutas_json(data):
     conn.close()
     return creadas
 
-def importar_tiendas_json(data):
+def importar_tiendas_desde_json():
+    data = load_json('tiendas.json', {'tiendas': []})
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     creadas = 0
     for t in data.get('tiendas', []):
         c.execute("SELECT id FROM tiendas WHERE nombre = ?", (t['nombre'],))
         if c.fetchone() is None:
-            c.execute("INSERT INTO tiendas (nombre, tipo, precio_cuenta_lum, precio_cuenta_eur, precio_cuenta_ltr, monedas_aceptadas, ubicacion_id) VALUES (?, ?, ?, ?, ?, ?, 1)",
+            safe_name = t['nombre'].replace(' ', '_').replace('ñ', 'n')
+            c.execute("INSERT INTO tiendas (nombre, tipo, precio_cuenta_lum, precio_cuenta_eur, precio_cuenta_ltr, monedas_aceptadas, archivo_catalogo, ubicacion_id) VALUES (?, ?, ?, ?, ?, ?, ?, 1)",
                       (t['nombre'], t.get('tipo', 'tienda'), t.get('precio_cuenta', {}).get('LUM', 0),
                        t.get('precio_cuenta', {}).get('EUR', 0), t.get('precio_cuenta', {}).get('LTR', 0),
-                       json.dumps(t.get('monedas_aceptadas', ['LUM', 'EUR']))))
+                       json.dumps(t.get('monedas_aceptadas', ['LUM', 'EUR'])), f"{safe_name}.json"))
             creadas += 1
     conn.commit()
     conn.close()
     return creadas
 
-def importar_productos_json(tienda_nombre, data):
+def importar_productos_desde_json(tienda_nombre):
+    data = load_catalogo(tienda_nombre)
+    if not data:
+        return 0
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("SELECT id FROM tiendas WHERE nombre = ?", (tienda_nombre,))
@@ -914,9 +931,24 @@ def importar_productos_json(tienda_nombre, data):
             if c.fetchone()[0] == 0:
                 c.execute("INSERT INTO productos_tienda (tienda_id, nombre, clasificacion, precio_lum, precio_eur, precio_ltr, monedas_aceptadas, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                           (tienda_id, p['nombre'], cat['clasificacion'], p['precio_lum'], p.get('precio_eur', 0),
-                           p.get('precio_ltr', 0), json.dumps(p.get('monedas_aceptadas', ['LUM', 'EUR'])),
+                           p.get('precio_ltr', 0), json.dumps(data.get('monedas_aceptadas', ['LUM', 'EUR'])),
                            p.get('cantidad', p.get('stock', 1))))
                 creados += 1
     conn.commit()
     conn.close()
     return creados
+
+def importar_empresas_desde_json():
+    data = load_json('empresas.json', {'empresas': []})
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    creadas = 0
+    for emp in data.get('empresas', []):
+        c.execute("SELECT COUNT(*) FROM empresas WHERE nombre = ?", (emp['nombre'],))
+        if c.fetchone()[0] == 0:
+            c.execute("INSERT INTO empresas (nombre, sector, valor_accion, acciones_totales, acciones_disponibles) VALUES (?, ?, ?, ?, ?)",
+                      (emp['nombre'], emp['sector'], emp['valor_accion'], emp['acciones_totales'], emp['acciones_disponibles']))
+            creadas += 1
+    conn.commit()
+    conn.close()
+    return creadas
