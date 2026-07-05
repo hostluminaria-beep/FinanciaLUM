@@ -528,6 +528,8 @@ async def menu_admin(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("💸 Crédito Especial", callback_data="admin_credito")],
         [InlineKeyboardButton("🔑 Generar Código", callback_data="admin_codigo")],
         [InlineKeyboardButton("👥 Ver Jugadores", callback_data="admin_usuarios")],
+        [InlineKeyboardButton("📤 Exportar Jugadores", callback_data="admin_exportar_jug")],
+        [InlineKeyboardButton("📥 Importar Jugadores", callback_data="admin_importar_jug")],
     ]
     await update.message.reply_text("🔧 *PANEL ADMIN*", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode='Markdown')
 
@@ -566,6 +568,10 @@ async def admin_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         conn.close()
         texto = "👥 *JUGADORES*\n\n" + "\n".join([f"ID:{u[0]} {u[1]} | LUM:{u[2]:.0f} EUR:{u[3]:.0f} LTR:{u[4]:.0f}" for u in usuarios])
         await query.edit_message_text(texto, parse_mode='Markdown')
+    elif data == "admin_exportar_jug":
+    await query.edit_message_text("Escribe: /admin_exportar_jugadores")
+    elif data == "admin_importar_jug":
+    await query.edit_message_text("Adjunta el archivo jugadores.json y escribe: /admin_importar_jugadores")
 
 # ============ COMANDOS ADMIN ============
 @admin_required
@@ -694,6 +700,95 @@ async def admin_credito_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn.close()
     await update.message.reply_text(f"✅ Crédito de {monto} {moneda} a cuenta {cuenta_id}")
 
+@admin_required
+async def admin_importar_jugadores_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Importa jugadores desde un archivo JSON (adjunto al mensaje)"""
+    try:
+        if not update.message.document:
+            await update.message.reply_text("❌ Debes adjuntar el archivo jugadores.json")
+            return
+        
+        file = await update.message.document.get_file()
+        filename = "jugadores_import.json"
+        await file.download_to_drive(filename)
+        
+        with open(filename, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        import sqlite3
+        conn = sqlite3.connect(db.DB_PATH)
+        c = conn.cursor()
+        
+        creados = 0
+        actualizados = 0
+        
+        for j in data.get('jugadores', []):
+            c.execute("SELECT id FROM jugadores WHERE id = ?", (j['id'],))
+            existe = c.fetchone()
+            
+            if existe:
+                c.execute("""UPDATE jugadores SET 
+                    nombre = ?, efectivo_lum = ?, efectivo_eur = ?, 
+                    efectivo_ltr = ?, ubicacion_id = ?
+                    WHERE id = ?""",
+                    (j['nombre'], j['efectivo_lum'], j['efectivo_eur'],
+                     j['efectivo_ltr'], j.get('ubicacion_id', 1), j['id']))
+                actualizados += 1
+            else:
+                c.execute("""INSERT INTO jugadores (id, nombre, contrasena, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                    (j['id'], j['nombre'], 'importado', j['efectivo_lum'],
+                     j['efectivo_eur'], j['efectivo_ltr'], j.get('ubicacion_id', 1)))
+                creados += 1
+        
+        conn.commit()
+        conn.close()
+        
+        import os
+        os.remove(filename)
+        
+        await update.message.reply_text(
+            f"✅ Importación completada\n\n"
+            f"🆕 Creados: {creados}\n"
+            f"🔄 Actualizados: {actualizados}"
+        )
+    
+    except Exception as e:
+        await update.message.reply_text(f"❌ Error: {e}")
+
+@admin_required
+async def admin_exportar_jugadores_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Exporta todos los jugadores a JSON"""
+    try:
+        import sqlite3
+        from datetime import datetime
+        
+        conn = sqlite3.connect(db.DB_PATH)
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        c.execute("SELECT id, nombre, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id FROM jugadores")
+        jugadores = [dict(row) for row in c.fetchall()]
+        conn.close()
+        
+        fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"jugadores_{fecha}.json"
+        
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump({"jugadores": jugadores}, f, indent=2, ensure_ascii=False)
+        
+        with open(filename, 'rb') as f:
+            await update.message.reply_document(
+                document=f,
+                filename=filename,
+                caption=f"👥 {len(jugadores)} jugadores exportados"
+            )
+        
+        import os
+        os.remove(filename)
+    
+    except Exception as e:
+        await update.message.reply_text(f"❌ Error: {e}")
+
 # ============ MAIN ============
 if __name__ == "__main__":
     db.init_db()
@@ -723,7 +818,8 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("admin_item", admin_item_cmd))
     app.add_handler(CommandHandler("admin_ajustar", admin_ajustar_cmd))
     app.add_handler(CommandHandler("admin_credito", admin_credito_cmd))
-    
+    app.add_handler(CommandHandler("admin_exportar_jugadores", admin_exportar_jugadores_cmd))
+    app.add_handler(CommandHandler("admin_importar_jugadores", admin_importar_jugadores_cmd))
     # Handlers
     app.add_handler(CallbackQueryHandler(admin_button, pattern="^admin_"))
     app.add_handler(CallbackQueryHandler(button_handler))
