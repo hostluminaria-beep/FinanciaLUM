@@ -50,8 +50,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("ℹ️ Acerca de", callback_data="acerca")],
     ]
     await update.message.reply_text(
-        "🔐 *SISTEMA ECONÓMICO DE LUMINARIA*\n\n"
-        "Sistema Oficial para los flujos financieros del Juego de Rol.\n"
+        "🔐 *DINEROLUM BOT*\n\n"
+        "Sistema financiero oficial del Juego de Rol Luminaria.\n"
         "Administración: Victor Granado\n\n"
         "/menu - Menú de jugador",
         reply_markup=InlineKeyboardMarkup(keyboard),
@@ -61,7 +61,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ============ ACERCA DE ============
 async def acerca(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    txt = "ℹ️ *ACERCA DE*\n\nSistema Económico de Luminaria\nJuego de Rol Oficial\n\nAdministración: Victor Granado\nVersión: 3.0\n© 2026"
+    txt = "ℹ️ *ACERCA DE*\n\nDineroLUM Bot\nSistema financiero oficial de Luminaria\n\nAdministración: Victor Granado\nVersión: 3.0\n© 2026"
     if query:
         await query.answer()
         await query.edit_message_text(txt, parse_mode='Markdown')
@@ -87,22 +87,56 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
     state = user_states.get(user_id, {}).get('state')
     
+    if state is None:
+        return
+    
+    if state == 'crear_pin':
+        pin = text
+        jugador_id = context.user_data.get('jugador_id')
+        banco_id = context.user_data.get('crear_banco_id')
+        moneda = context.user_data.get('crear_moneda')
+        if not jugador_id or not banco_id or not moneda:
+            await update.message.reply_text("❌ Error. Vuelve a intentar crear la cuenta.")
+            user_states.pop(user_id, None)
+            return
+        ok, msg = db.crear_cuenta(jugador_id, banco_id, moneda, pin)
+        user_states.pop(user_id, None)
+        await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
+        if ok:
+            await menu_principal(update, context)
+        return
+    
+    if state == 'transf_pin':
+        pin = text
+        origen = context.user_data.get('transf_origen')
+        destino = user_states[user_id].get('destino')
+        monto = user_states[user_id].get('monto')
+        jugador_id = context.user_data.get('jugador_id')
+        ok, msg = db.transferir(jugador_id, origen, destino, monto, pin)
+        user_states.pop(user_id, None)
+        await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
+        if ok:
+            await menu_principal(update, context)
+        return
+    
     if state == 'esperando_codigo':
         if db.validar_codigo(text):
             user_states[user_id] = {'state': 'esperando_nombre'}
             await update.message.reply_text("✅ Código válido.\n\nPaso 2/4: Elige tu nombre de jugador:")
         else:
-            await update.message.reply_text("❌ Código inválido.")
+            await update.message.reply_text("❌ Código inválido o ya usado.")
+        return
     
-    elif state == 'esperando_nombre':
+    if state == 'esperando_nombre':
         if db.get_jugador_by_nombre(text):
             await update.message.reply_text("❌ Ese nombre ya existe.")
         else:
             user_states[user_id]['nombre'] = text
             user_states[user_id]['state'] = 'esperando_password'
             await update.message.reply_text("Paso 3/4: Elige tu contraseña:")
+        return
     
-    elif state == 'esperando_password':
+    if state == 'esperando_password':
         user_states[user_id]['password'] = text
         ubicaciones = db.get_ubicaciones()
         if not ubicaciones:
@@ -112,16 +146,18 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         keyboard = [[InlineKeyboardButton(u[1], callback_data=f"reg_ubi_{u[0]}")] for u in ubicaciones]
         user_states[user_id]['state'] = 'esperando_ubicacion'
         await update.message.reply_text("Paso 4/4: Elige tu ubicación inicial:", reply_markup=InlineKeyboardMarkup(keyboard))
+        return
     
-    elif state == 'login_nombre':
+    if state == 'login_nombre':
         jugador = db.get_jugador_by_nombre(text)
         if jugador:
             user_states[user_id] = {'state': 'login_password', 'jugador': jugador}
             await update.message.reply_text("Introduce tu contraseña:")
         else:
             await update.message.reply_text("❌ Jugador no encontrado.")
+        return
     
-    elif state == 'login_password':
+    if state == 'login_password':
         jugador = user_states[user_id]['jugador']
         if db.verificar_login(jugador[1], text):
             user_sessions[user_id] = jugador[0]
@@ -130,11 +166,59 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await menu_principal(update, context)
         else:
             await update.message.reply_text("❌ Contraseña incorrecta.")
+        return
     
-    elif state == 'buscar_producto':
+    if state == 'transf_destino':
+        try:
+            user_states[user_id] = {'state': 'transf_monto', 'destino': int(text)}
+            await update.message.reply_text("Escribe el monto a transferir:")
+        except:
+            await update.message.reply_text("❌ ID inválido.")
+        return
+    
+    if state == 'transf_monto':
+        try:
+            user_states[user_id]['monto'] = float(text)
+            user_states[user_id]['state'] = 'transf_pin'
+            await update.message.reply_text("Escribe el PIN de tu cuenta origen:")
+        except:
+            await update.message.reply_text("❌ Monto inválido.")
+        return
+    
+    if state == 'conv_monto':
+        try:
+            monto = float(text)
+            ok, msg = db.convertir_moneda(context.user_data.get('conv_origen'), context.user_data.get('conv_destino'), monto)
+            user_states.pop(user_id, None)
+            await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
+            if ok:
+                await menu_principal(update, context)
+        except:
+            await update.message.reply_text("❌ Monto inválido.")
+        return
+    
+    if state == 'dep_monto':
+        parts = text.split()
+        if len(parts) != 2:
+            await update.message.reply_text("Formato: monto MONEDA (ej: 100 LUM)")
+            return
+        try:
+            monto = float(parts[0])
+            moneda = parts[1].upper()
+            ok, msg = db.depositar_efectivo(context.user_data.get('jugador_id'), moneda, monto, context.user_data.get('dep_cuenta'))
+            user_states.pop(user_id, None)
+            await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
+            if ok:
+                await menu_principal(update, context)
+        except:
+            await update.message.reply_text("❌ Error.")
+        return
+    
+    if state == 'buscar_producto':
         resultados = db.buscar_productos(text)
         if not resultados:
             await update.message.reply_text("❌ No se encontraron productos.")
+            user_states.pop(user_id, None)
             return
         keyboard = []
         for r in resultados[:20]:
@@ -146,12 +230,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )])
         keyboard.append([InlineKeyboardButton("🔙 Menú", callback_data="volver_menu")])
         user_states.pop(user_id, None)
-        await update.message.reply_text(f"🛒 Resultados:", reply_markup=InlineKeyboardMarkup(keyboard))
+        await update.message.reply_text("🛒 Resultados:", reply_markup=InlineKeyboardMarkup(keyboard))
+        return
     
-    elif state == 'buscar_oferta':
+    if state == 'buscar_oferta':
         resultados = db.buscar_ofertas(text)
         if not resultados:
             await update.message.reply_text("❌ No se encontraron ofertas.")
+            user_states.pop(user_id, None)
             return
         keyboard = []
         for r in resultados[:20]:
@@ -161,12 +247,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )])
         keyboard.append([InlineKeyboardButton("🔙 Menú", callback_data="volver_menu")])
         user_states.pop(user_id, None)
-        await update.message.reply_text(f"📦 Ofertas:", reply_markup=InlineKeyboardMarkup(keyboard))
+        await update.message.reply_text("📦 Ofertas:", reply_markup=InlineKeyboardMarkup(keyboard))
+        return
     
-    elif state == 'buscar_acciones':
+    if state == 'buscar_acciones':
         resultados = db.buscar_ofertas_acciones(text)
         if not resultados:
             await update.message.reply_text("❌ No se encontraron acciones.")
+            user_states.pop(user_id, None)
             return
         keyboard = []
         for r in resultados[:20]:
@@ -176,71 +264,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )])
         keyboard.append([InlineKeyboardButton("🔙 Menú", callback_data="volver_menu")])
         user_states.pop(user_id, None)
-        await update.message.reply_text(f"📈 Acciones:", reply_markup=InlineKeyboardMarkup(keyboard))
-    
-    elif state == 'crear_pin':
-        pin = text
-        jugador_id = context.user_data['jugador_id']
-        banco_id = context.user_data['crear_banco_id']
-        moneda = context.user_data['crear_moneda']
-        ok, msg = db.crear_cuenta(jugador_id, banco_id, moneda, pin)
-        user_states.pop(user_id, None)
-        await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
-        if ok:
-            await menu_principal(update, context)
-    
-    elif state == 'transf_destino':
-        try:
-            user_states[user_id] = {'state': 'transf_monto', 'destino': int(text)}
-            await update.message.reply_text("Escribe el monto a transferir:")
-        except:
-            await update.message.reply_text("❌ ID inválido.")
-    
-    elif state == 'transf_monto':
-        try:
-            user_states[user_id]['monto'] = float(text)
-            user_states[user_id]['state'] = 'transf_pin'
-            await update.message.reply_text("Escribe el PIN de tu cuenta origen:")
-        except:
-            await update.message.reply_text("❌ Monto inválido.")
-    
-    elif state == 'transf_pin':
-        pin = text
-        origen = context.user_data['transf_origen']
-        destino = user_states[user_id]['destino']
-        monto = user_states[user_id]['monto']
-        ok, msg = db.transferir(context.user_data['jugador_id'], origen, destino, monto, pin)
-        user_states.pop(user_id, None)
-        await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
-        if ok:
-            await menu_principal(update, context)
-    
-    elif state == 'conv_monto':
-        try:
-            monto = float(text)
-            ok, msg = db.convertir_moneda(context.user_data['conv_origen'], context.user_data['conv_destino'], monto)
-            user_states.pop(user_id, None)
-            await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
-            if ok:
-                await menu_principal(update, context)
-        except:
-            await update.message.reply_text("❌ Monto inválido.")
-    
-    elif state == 'dep_monto':
-        parts = text.split()
-        if len(parts) != 2:
-            await update.message.reply_text("Formato: monto MONEDA (ej: 100 LUM)")
-            return
-        try:
-            monto = float(parts[0])
-            moneda = parts[1].upper()
-            ok, msg = db.depositar_efectivo(context.user_data['jugador_id'], moneda, monto, context.user_data['dep_cuenta'])
-            user_states.pop(user_id, None)
-            await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
-            if ok:
-                await menu_principal(update, context)
-        except:
-            await update.message.reply_text("❌ Error.")
+        await update.message.reply_text("📈 Acciones:", reply_markup=InlineKeyboardMarkup(keyboard))
+        return
 
 # ============ MENÚ PRINCIPAL ============
 async def menu_principal(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -312,9 +337,18 @@ async def crear_cuenta_moneda(update: Update, context: ContextTypes.DEFAULT_TYPE
 async def crear_cuenta_pin(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    context.user_data['crear_moneda'] = query.data.split("_")[2]
+    moneda = query.data.split("_")[2]
+    context.user_data['crear_moneda'] = moneda
     user_states[update.effective_user.id] = {'state': 'crear_pin'}
-    await query.edit_message_text("🔐 Escribe un PIN de 4 dígitos:")
+    banco_id = context.user_data.get('crear_banco_id')
+    banco = db.get_banco_by_id(banco_id)
+    dep = banco[4] if moneda == 'LUM' else banco[3] if moneda == 'EUR' else banco[5]
+    await query.edit_message_text(
+        f"🔐 *CREAR CUENTA EN {moneda}*\n\n"
+        f"Depósito inicial: {dep} {moneda}\n\n"
+        f"Escribe un PIN de 4 dígitos para tu cuenta:",
+        parse_mode='Markdown'
+    )
 
 # ============ VIAJES ============
 async def menu_viajes(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -388,7 +422,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     elif data == "menu_resumen":
         lum, eur, ltr, acc = db.get_total_activos(jugador_id)
-        await query.edit_message_text(f"📊 *RESUMEN*\n\n💰 LUM: {lum:,.2f}\n💰 EUR: {eur:,.2f}\n💰 LTR: {ltr:,.2f}\n📈 Acciones: {acc:,.2f} LUM", parse_mode='Markdown')
+        await query.edit_message_text(f"📊 *RESUMEN*\n\n💰 LUM: {lum:,.2f}\n💰 EUR: {eur:,.2f}\n💰 LTR: {ltr:,.2f}\n📈 Acciones: {acc:,.2f} EUR", parse_mode='Markdown')
     
     elif data == "buscar_tienda":
         user_states[user_id] = {'state': 'buscar_producto'}
@@ -413,13 +447,13 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     elif data == "bolsa_empresas":
         empresas = db.get_empresas()
-        keyboard = [[InlineKeyboardButton(f"{e[1]} - {e[3]:.2f} LUM", callback_data=f"bolsa_comp_{e[0]}")] for e in empresas]
+        keyboard = [[InlineKeyboardButton(f"{e[1]} - {e[3]:.2f} EUR", callback_data=f"bolsa_comp_{e[0]}")] for e in empresas]
         keyboard.append([InlineKeyboardButton("🔙 Volver", callback_data="menu_bolsa")])
         await query.edit_message_text("📈 *EMPRESAS*", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode='Markdown')
     
     elif data == "bolsa_mis":
         acciones = db.get_acciones_jugador(jugador_id)
-        txt = "📋 *MIS ACCIONES*\n\n" + ("\n".join([f"ID:{a[0]} {a[1]} | Cant:{a[2]} | Valor:{a[3]:.2f}" for a in acciones]) if acciones else "No tienes acciones.")
+        txt = "📋 *MIS ACCIONES*\n\n" + ("\n".join([f"ID:{a[0]} {a[1]} | Cant:{a[2]} | Valor:{a[3]:.2f} EUR" for a in acciones]) if acciones else "No tienes acciones.")
         await query.edit_message_text(txt, parse_mode='Markdown')
     
     elif data == "menu_viajes": await menu_viajes(update, context)
@@ -502,7 +536,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text("Escribe: /compra_accion <cantidad> <cuenta_id>")
     
     elif data.startswith("viaje_destino_"): await viaje_transporte(update, context)
-    elif data.startswith("viaje_"): await viaje_confirmar(update, context)
+    elif data.startswith("viaje_publico") or data.startswith("viaje_especial") or data.startswith("viaje_premium"): await viaje_confirmar(update, context)
     
     elif data.startswith("reg_ubi_"):
         ubicacion_id = int(data.split("_")[2])
@@ -549,6 +583,15 @@ async def comprar_oferta_accion_cmd(update: Update, context: ContextTypes.DEFAUL
     await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
     if ok: await menu_principal(update, context)
 
+@login_required
+async def vender_accion_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if len(context.args) != 3:
+        await update.message.reply_text("Uso: /vender_accion <accion_id> <cantidad> <precio_eur>")
+        return
+    ok, msg = db.vender_acciones(context.user_data['jugador_id'], int(context.args[0]), int(context.args[1]), float(context.args[2]))
+    await update.message.reply_text(f"{'✅' if ok else '❌'} {msg}")
+    if ok: await menu_principal(update, context)
+
 # ============ ADMIN ============
 async def admin_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
@@ -570,7 +613,6 @@ async def menu_admin(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("📥 Importar Catálogo", callback_data="admin_importar_prod")],
         [InlineKeyboardButton("📥 Importar Empresas", callback_data="admin_importar_empresas")],
         [InlineKeyboardButton("📤 Exportar Jugadores", callback_data="admin_exportar_jug")],
-        [InlineKeyboardButton("📥 Importar Jugadores", callback_data="admin_importar_jug")],
         [InlineKeyboardButton("📈 Update Bolsa", callback_data="admin_updatebolsa")],
         [InlineKeyboardButton("📦 Dar Item", callback_data="admin_item")],
         [InlineKeyboardButton("💰 Ajustar Efectivo", callback_data="admin_ajustar")],
@@ -612,8 +654,6 @@ async def admin_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "admin_exportar_jug":
         db.exportar_jugadores()
         await query.edit_message_text("✅ Jugadores exportados a data/jugadores.json")
-    elif data == "admin_importar_jug":
-        await query.edit_message_text("Adjunta jugadores.json y escribe: /admin_importar_jugadores")
     elif data == "admin_codigo":
         await query.edit_message_text("Escribe: /admin_codigo <codigo>")
     elif data == "admin_updatebolsa":
@@ -634,7 +674,6 @@ async def admin_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         txt = "👥 *JUGADORES*\n\n" + "\n".join([f"ID:{j[0]} {j[1]} | LUM:{j[2]:.0f} EUR:{j[3]:.0f} LTR:{j[4]:.0f}" for j in u])
         await query.edit_message_text(txt, parse_mode='Markdown')
 
-# ============ COMANDOS ADMIN ============
 @admin_required
 async def admin_importar_catalogo_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
@@ -643,18 +682,6 @@ async def admin_importar_catalogo_cmd(update: Update, context: ContextTypes.DEFA
     tienda = ' '.join(context.args)
     c = db.importar_productos_desde_json(tienda)
     await update.message.reply_text(f"✅ {c} productos importados a {tienda}")
-
-@admin_required
-async def admin_importar_jugadores_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not update.message.document:
-        await update.message.reply_text("❌ Adjunta jugadores.json")
-        return
-    file = await update.message.document.get_file()
-    await file.download_to_drive('data/jugadores_import.json')
-    with open('data/jugadores_import.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    c = db.importar_jugadores(data)
-    await update.message.reply_text(f"✅ {c} jugadores importados")
 
 @admin_required
 async def admin_codigo_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -701,12 +728,8 @@ async def admin_credito_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cuenta_id = int(context.args[0])
     monto = float(context.args[1])
     moneda = context.args[2].upper()
-    cuenta = db.get_cuenta_by_id(cuenta_id)
-    if not cuenta:
-        await update.message.reply_text("❌ Cuenta no encontrada")
-        return
     db.actualizar_saldo_cuenta(cuenta_id, monto)
-    await update.message.reply_text(f"✅ Crédito de {monto} {moneda}")
+    await update.message.reply_text(f"✅ Crédito de {monto} {moneda} a cuenta {cuenta_id}")
 
 # ============ MAIN ============
 if __name__ == "__main__":
@@ -719,8 +742,8 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("comprar_oferta", comprar_oferta_cmd))
     app.add_handler(CommandHandler("compra_accion", comprar_accion_cmd))
     app.add_handler(CommandHandler("comprar_oferta_accion", comprar_oferta_accion_cmd))
+    app.add_handler(CommandHandler("vender_accion", vender_accion_cmd))
     app.add_handler(CommandHandler("admin_importar_catalogo", admin_importar_catalogo_cmd))
-    app.add_handler(CommandHandler("admin_importar_jugadores", admin_importar_jugadores_cmd))
     app.add_handler(CommandHandler("admin_codigo", admin_codigo_cmd))
     app.add_handler(CommandHandler("admin_updatebolsa", admin_updatebolsa_cmd))
     app.add_handler(CommandHandler("admin_item", admin_item_cmd))
@@ -730,5 +753,5 @@ if __name__ == "__main__":
     app.add_handler(CallbackQueryHandler(button_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
-    print("🤖 Bot iniciado...")
+    print("🤖 DineroLUM Bot iniciado...")
     app.run_polling()
