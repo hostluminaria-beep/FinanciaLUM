@@ -607,6 +607,7 @@ async def admin_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("📈 Empresas", callback_data="admin_importar_empresas")],
             [InlineKeyboardButton("🛒 Catálogo", callback_data="admin_importar_prod")],
             [InlineKeyboardButton("🔙 Volver", callback_data="admin_volver")],
+            [InlineKeyboardButton("👥 Jugadores", callback_data="admin_importar_jug")],
         ]
         await query.edit_message_text("📥 *IMPORTAR*", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode='Markdown')
     
@@ -699,6 +700,9 @@ async def admin_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         txt = "👥 *JUGADORES*\n\n" + "\n".join([f"ID:{j[0]} {j[1]} | LUM:{j[2]:.0f} EUR:{j[3]:.0f} LTR:{j[4]:.0f}" for j in u])
         await query.edit_message_text(txt, parse_mode='Markdown')
 
+    elif data == "admin_importar_jug":
+    await query.edit_message_text("Adjunta jugadores.json o escribe: /admin_importar_jugadores")
+
 # ============ COMANDOS ADMIN ============
 @admin_required
 async def admin_codigo_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -761,6 +765,41 @@ async def admin_importar_catalogo_cmd(update: Update, context: ContextTypes.DEFA
     c = db.importar_productos_desde_json(' '.join(context.args))
     await update.message.reply_text(f"✅ {c} productos")
 
+@admin_required
+async def admin_importar_jugadores_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Importa jugadores desde un archivo JSON adjunto o desde data/jugadores.json"""
+    try:
+        # Si se adjunta un archivo
+        if update.message.document:
+            file = await update.message.document.get_file()
+            filename = "jugadores_import.json"
+            await file.download_to_drive(filename)
+            with open(filename, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            creados = db.importar_jugadores(data)
+            os.remove(filename)
+            await update.message.reply_text(f"✅ {creados} jugadores importados desde archivo")
+        else:
+            # Cargar desde data/jugadores.json
+            filepath = os.path.join(db.DATA_DIR, 'jugadores.json')
+            if os.path.exists(filepath):
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                creados = db.importar_jugadores(data)
+                await update.message.reply_text(f"✅ {creados} jugadores importados desde jugadores.json")
+            else:
+                # Cargar desde estado.json
+                filepath = os.path.join(db.DATA_DIR, 'estado.json')
+                if os.path.exists(filepath):
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                    creados = db.importar_jugadores(data)
+                    await update.message.reply_text(f"✅ {creados} jugadores importados desde estado.json")
+                else:
+                    await update.message.reply_text("❌ No se encontró jugadores.json ni estado.json. Adjunta un archivo JSON.")
+    except Exception as e:
+        await update.message.reply_text(f"❌ Error: {e}")
+
 # ============ MAIN ============
 if __name__ == "__main__":
     db.init_db()
@@ -781,5 +820,6 @@ if __name__ == "__main__":
     app.add_handler(CallbackQueryHandler(admin_button, pattern="^admin_"))
     app.add_handler(CallbackQueryHandler(button_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    app.add_handler(CommandHandler("admin_importar_jugadores", admin_importar_jugadores_cmd))
     print("🤖 DineroLUM Bot iniciado...")
     app.run_polling()
