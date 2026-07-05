@@ -50,7 +50,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("ℹ️ Acerca de", callback_data="acerca")],
     ]
     await update.message.reply_text(
-        "🔐 *DINEROLUM BOT*\n\n"
+        "🔐 *DineroLUM_bot*\n\n"
         "Sistema financiero oficial del Juego de Rol Luminaria.\n"
         "Administración: Victor Granado\n\n"
         "/menu - Menú de jugador",
