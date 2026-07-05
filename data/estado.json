@@ -3,5 +3,10 @@
   "cuentas": [],
   "inventario": [],
   "acciones": [],
-  "codigos": []
+  "codigos": [
+    {
+      "codigo": "1111",
+      "usado": 0
+    }
+  ]
 }
