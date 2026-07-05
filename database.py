@@ -2,6 +2,8 @@ import sqlite3
 import json
 import hashlib
 import os
+import requests
+import base64
 from datetime import datetime, timedelta
 
 DB_PATH = 'economia.db'
@@ -9,14 +11,12 @@ DATA_DIR = 'data'
 CATALOGO_DIR = 'catalogo'
 
 def ensure_dirs():
-    """Crea las carpetas si no existen"""
     if not os.path.exists(DATA_DIR):
         os.makedirs(DATA_DIR)
     if not os.path.exists(CATALOGO_DIR):
         os.makedirs(CATALOGO_DIR)
 
 def load_json(filename, default=None):
-    """Carga un JSON de data/ o crea uno por defecto"""
     filepath = os.path.join(DATA_DIR, filename)
     if os.path.exists(filepath):
         with open(filepath, 'r', encoding='utf-8') as f:
@@ -28,13 +28,11 @@ def load_json(filename, default=None):
         return None
 
 def save_json(filename, data):
-    """Guarda un JSON en data/"""
     filepath = os.path.join(DATA_DIR, filename)
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 def load_catalogo(tienda_nombre):
-    """Carga el catálogo de una tienda desde catalogo/"""
     safe_name = tienda_nombre.replace(' ', '_').replace('ñ', 'n')
     filepath = os.path.join(CATALOGO_DIR, f"{safe_name}.json")
     if os.path.exists(filepath):
@@ -43,11 +41,25 @@ def load_catalogo(tienda_nombre):
     return None
 
 def save_catalogo(tienda_nombre, data):
-    """Guarda el catálogo de una tienda en catalogo/"""
     safe_name = tienda_nombre.replace(' ', '_').replace('ñ', 'n')
     filepath = os.path.join(CATALOGO_DIR, f"{safe_name}.json")
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
+
+def subir_a_github(filename, content, mensaje="Auto backup"):
+    try:
+        from config import GITHUB_TOKEN, GITHUB_REPO
+        url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{filename}"
+        headers = {"Authorization": f"token {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
+        r = requests.get(url, headers=headers)
+        sha = r.json().get("sha") if r.status_code == 200 else None
+        data = {"message": mensaje, "content": base64.b64encode(content.encode()).decode(), "branch": "main"}
+        if sha:
+            data["sha"] = sha
+        response = requests.put(url, headers=headers, json=data)
+        return response.status_code in [200, 201]
+    except:
+        return False
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -258,7 +270,9 @@ def exportar_jugadores():
     c.execute("SELECT id, nombre, efectivo_lum, efectivo_eur, efectivo_ltr, ubicacion_id FROM jugadores")
     jugadores = [dict(row) for row in c.fetchall()]
     conn.close()
+    data = json.dumps({'jugadores': jugadores}, indent=2, ensure_ascii=False)
     save_json('jugadores.json', {'jugadores': jugadores})
+    subir_a_github('data/jugadores.json', data, 'Auto backup jugadores')
 
 def importar_jugadores(data):
     conn = sqlite3.connect(DB_PATH)
@@ -709,14 +723,12 @@ def buscar_ofertas_acciones(query):
     return r
 
 def comprar_acciones(jugador_id, empresa_id, cantidad, cuenta_id):
-    """Compra acciones de empresa - SOLO EUR"""
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     emp = get_empresa_by_id(empresa_id)
     if not emp or emp[4] < cantidad:
         conn.close()
         return False, "Acciones insuficientes"
-    
     c.execute("SELECT saldo, moneda FROM cuentas WHERE id=? AND jugador_id=?", (cuenta_id, jugador_id))
     cu = c.fetchone()
     if not cu:
@@ -725,12 +737,10 @@ def comprar_acciones(jugador_id, empresa_id, cantidad, cuenta_id):
     if cu[1] != 'EUR':
         conn.close()
         return False, "Solo se aceptan cuentas en EUR para comprar acciones"
-    
     costo = emp[3] * cantidad
     if cu[0] < costo:
         conn.close()
         return False, f"Saldo insuficiente. Necesitas {costo:.2f} EUR"
-    
     c.execute("UPDATE cuentas SET saldo=saldo-? WHERE id=?", (costo, cuenta_id))
     c.execute("UPDATE empresas SET acciones_disponibles=acciones_disponibles-? WHERE id=?", (cantidad, empresa_id))
     c.execute("SELECT id FROM acciones WHERE jugador_id=? AND empresa_id=? AND en_venta=0", (jugador_id, empresa_id))
@@ -739,15 +749,11 @@ def comprar_acciones(jugador_id, empresa_id, cantidad, cuenta_id):
         c.execute("UPDATE acciones SET cantidad=cantidad+?, precio_compra=? WHERE id=?", (cantidad, emp[3], ex[0]))
     else:
         c.execute("INSERT INTO acciones (jugador_id, empresa_id, cantidad, precio_compra) VALUES (?,?,?,?)", (jugador_id, empresa_id, cantidad, emp[3]))
-    
-    c.execute("INSERT INTO transacciones_financieras (jugador_id, cuenta_id, tipo, operacion, monto, moneda, concepto) VALUES (?, ?, 'debito', 'Compra acciones', ?, 'EUR', ?)",
-              (jugador_id, cuenta_id, costo, f"{cantidad} acciones de {emp[1]}"))
     conn.commit()
     conn.close()
     return True, f"Compradas {cantidad} acciones de {emp[1]} por {costo:.2f} EUR"
 
 def vender_acciones(jugador_id, acciones_id, cantidad, precio_venta):
-    """Pone acciones en venta - precio en EUR"""
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("SELECT * FROM acciones WHERE id=? AND jugador_id=?", (acciones_id, jugador_id))
@@ -761,7 +767,6 @@ def vender_acciones(jugador_id, acciones_id, cantidad, precio_venta):
     return True, f"Acciones en venta a {precio_venta:.2f} EUR c/u"
 
 def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
-    """Compra acciones en oferta - SOLO EUR"""
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("SELECT * FROM acciones WHERE id=? AND en_venta=1", (accion_id,))
@@ -769,7 +774,6 @@ def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
     if not a or a[3] < cantidad:
         conn.close()
         return False, "Oferta no disponible"
-    
     c.execute("SELECT saldo, moneda FROM cuentas WHERE id=? AND jugador_id=?", (cuenta_id, comprador_id))
     cu = c.fetchone()
     if not cu:
@@ -778,12 +782,10 @@ def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
     if cu[1] != 'EUR':
         conn.close()
         return False, "Solo se aceptan cuentas en EUR para comprar acciones"
-    
     costo = a[7] * cantidad
     if cu[0] < costo:
         conn.close()
         return False, f"Saldo insuficiente. Necesitas {costo:.2f} EUR"
-    
     c.execute("UPDATE cuentas SET saldo=saldo-? WHERE id=?", (costo, cuenta_id))
     c.execute("SELECT id FROM cuentas WHERE jugador_id=? AND moneda='EUR' LIMIT 1", (a[1],))
     cv = c.fetchone()
@@ -796,9 +798,6 @@ def comprar_oferta_acciones(comprador_id, accion_id, cantidad, cuenta_id):
         c.execute("UPDATE acciones SET cantidad=cantidad+? WHERE id=?", (cantidad, ex[0]))
     else:
         c.execute("INSERT INTO acciones (jugador_id, empresa_id, cantidad, precio_compra) VALUES (?,?,?,?)", (comprador_id, a[2], cantidad, a[7]))
-    
-    c.execute("INSERT INTO transacciones_financieras (jugador_id, cuenta_id, tipo, operacion, monto, moneda, concepto) VALUES (?, ?, 'debito', 'Compra acciones', ?, 'EUR', ?)",
-              (comprador_id, cuenta_id, costo, f"{cantidad} acciones"))
     conn.commit()
     conn.close()
     return True, f"Compra exitosa. Costo: {costo:.2f} EUR"
@@ -835,7 +834,6 @@ def importar_bancos_desde_json():
         interes = banco.get('interes', 0)
         com_mismo = banco.get('comision_transferencia', {}).get('mismo_banco', 0)
         com_otro = banco.get('comision_transferencia', {}).get('otro_banco', 0)
-        
         c.execute("SELECT id FROM bancos WHERE nombre = ?", (nombre,))
         ex = c.fetchone()
         if not ex:
@@ -845,7 +843,6 @@ def importar_bancos_desde_json():
             creados += 1
         else:
             banco_id = ex[0]
-        
         for tipo in banco.get('tipos_cambio', []):
             c.execute("SELECT COUNT(*) FROM tipos_cambio WHERE banco_id = ? AND de_moneda = ? AND a_moneda = ?",
                       (banco_id, tipo['de'], tipo['a']))
