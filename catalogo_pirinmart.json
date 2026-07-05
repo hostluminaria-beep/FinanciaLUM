@@ -1,0 +1,78 @@
+{
+  "tienda": "Pirinmart EPEIN",
+  "tipo": "tienda",
+  "monedas_aceptadas": ["LUM", "EUR"],
+  "precio_cuenta": {
+    "LUM": 0,
+    "EUR": 0
+  },
+  "categorias": [
+    {
+      "nombre": "Teléfonos Móviles - Gama Alta",
+      "clasificacion": "S",
+      "productos": [
+        {"nombre": "iPhone 16 Pro Max 256GB", "codigo": "APL-482K7X", "precio_lum": 189280, "precio_eur": 1820},
+        {"nombre": "iPhone 16 Pro Max 512GB", "codigo": "APL-739M2Y", "precio_lum": 209040, "precio_eur": 2010},
+        {"nombre": "iPhone 16 Pro Max 1TB", "codigo": "APL-156N8W", "precio_lum": 235040, "precio_eur": 2260},
+        {"nombre": "iPhone 16 Pro 256GB", "codigo": "APL-841P3V", "precio_lum": 164320, "precio_eur": 1580},
+        {"nombre": "iPhone 16 Pro 512GB", "codigo": "APL-927Q4T", "precio_lum": 185120, "precio_eur": 1780},
+        {"nombre": "iPhone 16 128GB", "codigo": "APL-315R6Z", "precio_lum": 124800, "precio_eur": 1200},
+        {"nombre": "iPhone 16 256GB", "codigo": "APL-628S9L", "precio_lum": 143520, "precio_eur": 1380},
+        {"nombre": "Samsung Galaxy S25 Ultra 256GB", "codigo": "SAM-173GWQ", "precio_lum": 177840, "precio_eur": 1710},
+        {"nombre": "Samsung Galaxy S25 Ultra 512GB", "codigo": "SAM-284HX8", "precio_lum": 198640, "precio_eur": 1910},
+        {"nombre": "Samsung Galaxy S25 Ultra 1TB", "codigo": "SAM-395JY2", "precio_lum": 224640, "precio_eur": 2160},
+        {"nombre": "Samsung Galaxy S25+ 256GB", "codigo": "SAM-417KZ6", "precio_lum": 153920, "precio_eur": 1480},
+        {"nombre": "Samsung Galaxy S25+ 512GB", "codigo": "SAM-529LW4", "precio_lum": 174720, "precio_eur": 1680},
+        {"nombre": "Samsung Galaxy S25 128GB", "codigo": "SAM-638MX3", "precio_lum": 114400, "precio_eur": 1100},
+        {"nombre": "Samsung Galaxy S25 256GB", "codigo": "SAM-741NY9", "precio_lum": 133120, "precio_eur": 1280},
+        {"nombre": "Google Pixel 10 Pro 256GB", "codigo": "GGL-852PZ1", "precio_lum": 164320, "precio_eur": 1580},
+        {"nombre": "Google Pixel 10 Pro 512GB", "codigo": "GGL-963QA5", "precio_lum": 185120, "precio_eur": 1780},
+        {"nombre": "Google Pixel 10 128GB", "codigo": "GGL-174RB8", "precio_lum": 114400, "precio_eur": 1100},
+        {"nombre": "Xiaomi 16 Pro 512GB", "codigo": "XIA-285SC3", "precio_lum": 153920, "precio_eur": 1480},
+        {"nombre": "Xiaomi 16 Ultra 1TB", "codigo": "XIA-396TD7", "precio_lum": 198640, "precio_eur": 1910},
+        {"nombre": "OnePlus 13 256GB", "codigo": "OPL-417UE2", "precio_lum": 124800, "precio_eur": 1200},
+        {"nombre": "OnePlus 13 512GB", "codigo": "OPL-528VF9", "precio_lum": 145600, "precio_eur": 1400},
+        {"nombre": "Sony Xperia 2 VI 256GB", "codigo": "SNY-639WG4", "precio_lum": 174720, "precio_eur": 1680},
+        {"nombre": "Huawei P70 Pro 512GB", "codigo": "HUA-741XH8", "precio_lum": 164320, "precio_eur": 1580},
+        {"nombre": "Nothing Phone (4) 256GB", "codigo": "NTH-852YJ3", "precio_lum": 104000, "precio_eur": 1000},
+        {"nombre": "Honor Magic7 Pro 512GB", "codigo": "HNR-963ZK5", "precio_lum": 143520, "precio_eur": 1380}
+      ]
+    },
+    {
+      "nombre": "Alimentación y Bebidas",
+      "clasificacion": "F",
+      "productos": [
+        {"nombre": "Pan de Barra", "codigo": "ALI-001", "precio_lum": 52, "precio_eur": 0.50, "cantidad": 500},
+        {"nombre": "Leche Entera 1L", "codigo": "ALI-002", "precio_lum": 104, "precio_eur": 1.00, "cantidad": 300},
+        {"nombre": "Huevos (docena)", "codigo": "ALI-003", "precio_lum": 260, "precio_eur": 2.50, "cantidad": 200},
+        {"nombre": "Arroz 1kg", "codigo": "ALI-004", "precio_lum": 156, "precio_eur": 1.50, "cantidad": 400},
+        {"nombre": "Pasta 500g", "codigo": "ALI-005", "precio_lum": 125, "precio_eur": 1.20, "cantidad": 350},
+        {"nombre": "Aceite de Oliva 1L", "codigo": "ALI-006", "precio_lum": 520, "precio_eur": 5.00, "cantidad": 150},
+        {"nombre": "Pollo Entero", "codigo": "ALI-007", "precio_lum": 624, "precio_eur": 6.00, "cantidad": 100},
+        {"nombre": "Carne de Res 1kg", "codigo": "ALI-008", "precio_lum": 1248, "precio_eur": 12.00, "cantidad": 80},
+        {"nombre": "Pescado Fresco 1kg", "codigo": "ALI-009", "precio_lum": 1040, "precio_eur": 10.00, "cantidad": 60},
+        {"nombre": "Manzanas 1kg", "codigo": "ALI-010", "precio_lum": 208, "precio_eur": 2.00, "cantidad": 250},
+        {"nombre": "Plátanos 1kg", "codigo": "ALI-011", "precio_lum": 187, "precio_eur": 1.80, "cantidad": 250},
+        {"nombre": "Tomates 1kg", "codigo": "ALI-012", "precio_lum": 239, "precio_eur": 2.30, "cantidad": 200},
+        {"nombre": "Patatas 5kg", "codigo": "ALI-013", "precio_lum": 416, "precio_eur": 4.00, "cantidad": 300},
+        {"nombre": "Queso Curado 250g", "codigo": "ALI-014", "precio_lum": 468, "precio_eur": 4.50, "cantidad": 120},
+        {"nombre": "Jamón Serrano 100g", "codigo": "ALI-015", "precio_lum": 364, "precio_eur": 3.50, "cantidad": 150},
+        {"nombre": "Café Molido 250g", "codigo": "ALI-016", "precio_lum": 312, "precio_eur": 3.00, "cantidad": 180},
+        {"nombre": "Té Negro 20 bolsitas", "codigo": "ALI-017", "precio_lum": 208, "precio_eur": 2.00, "cantidad": 200},
+        {"nombre": "Cerveza 6 latas", "codigo": "ALI-018", "precio_lum": 416, "precio_eur": 4.00, "cantidad": 300},
+        {"nombre": "Vino Tinto 750ml", "codigo": "ALI-019", "precio_lum": 624, "precio_eur": 6.00, "cantidad": 120},
+        {"nombre": "Agua Mineral 6x1.5L", "codigo": "ALI-020", "precio_lum": 260, "precio_eur": 2.50, "cantidad": 400},
+        {"nombre": "Refresco Cola 2L", "codigo": "ALI-021", "precio_lum": 208, "precio_eur": 2.00, "cantidad": 350},
+        {"nombre": "Zumo de Naranja 1L", "codigo": "ALI-022", "precio_lum": 260, "precio_eur": 2.50, "cantidad": 200},
+        {"nombre": "Yogur Natural 4 unidades", "codigo": "ALI-023", "precio_lum": 208, "precio_eur": 2.00, "cantidad": 250},
+        {"nombre": "Mantequilla 250g", "codigo": "ALI-024", "precio_lum": 260, "precio_eur": 2.50, "cantidad": 150},
+        {"nombre": "Chocolate con Leche 200g", "codigo": "ALI-025", "precio_lum": 239, "precio_eur": 2.30, "cantidad": 180},
+        {"nombre": "Galletas María 400g", "codigo": "ALI-026", "precio_lum": 156, "precio_eur": 1.50, "cantidad": 300},
+        {"nombre": "Cereales Desayuno 500g", "codigo": "ALI-027", "precio_lum": 312, "precio_eur": 3.00, "cantidad": 200},
+        {"nombre": "Mermelada Fresa 350g", "codigo": "ALI-028", "precio_lum": 208, "precio_eur": 2.00, "cantidad": 150},
+        {"nombre": "Atún en Lata 3 unidades", "codigo": "ALI-029", "precio_lum": 312, "precio_eur": 3.00, "cantidad": 250},
+        {"nombre": "Sopa Instantánea 5 sobres", "codigo": "ALI-030", "precio_lum": 260, "precio_eur": 2.50, "cantidad": 200}
+      ]
+    }
+  ]
+        }
